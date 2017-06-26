@@ -1,0 +1,30 @@
+import axios from 'axios';
+
+const ROOT_URL = `https://api.thetvdb.com/search/series?name=`
+export const FETCH_SERIES = 'FETCH_SERIES';
+const TOKEN = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0OTg0NTE1OTksImlkIjoiU2VyaWVzVHJhY2tlciIsIm9yaWdfaWF0IjoxNDk4MzY1MTk5LCJ1c2VyaWQiOjQ4MjQ0NiwidXNlcm5hbWUiOiJNS2F0eiJ9.hqVETpvrjBakwx4HlIS0GRumm7HXAROQYpO63-t4xncJ1nfk947BnGiw__zCUTG5z4R-4LGp6NRzjHI48CLB1xXyXoyqtAK8ARPBXJ2nDBb3jtR-Yldb2HN2WjxveSd9yIjobd9b9BVXPz9nFBHwE7M4WtSiix1YnoZ74pVyya8Haim31lWxYeFSPbGpQx8s21GFXgsfH-wDBsc21FdFm2btSBpitwtM6MdMjoeDtSR2U2nsCfcMWcvvyvfImFywZsxrj2j8AG361SPKfGoauQhAyB4xfOtV-4qoG8_jn5Ne3Cz5flq5zcDgmz3nWv6mj-f0mNukexgOkf1wVf_Sgg'
+
+export function fetchSeries(show) {
+  const AuthStr = 'Bearer '.concat(TOKEN);
+  const url = `${ROOT_URL}${show}`;
+  const request = axios.get(url, { headers: { Authorization: AuthStr } })
+  return {
+    type: FETCH_SERIES,
+    payload: request
+  };
+}
+
+import axios from 'axios';
+
+const API_KEY = '6b3381fefb8a4bffa79e2d5e55317516'
+export const FETCH_SERIES = 'FETCH_SERIES'
+const ROOT_URL = `https://api.themoviedb.org/3/search/tv?api_key=`
+
+export function fetchSeries(show) {
+  const url = `${ROOT_URL}${API_KEY}&query=${show}`;
+  const request = axios.get(url)
+  return {
+    type: FETCH_SERIES,
+    payload: request
+  };
+}
