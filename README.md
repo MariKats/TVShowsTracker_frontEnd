@@ -19,13 +19,15 @@ The user can keep track of the shows she is watching and ones she liked most, vi
 1. React front-end with Rails back-end
 2. Semantic UI react
 3. Animate JS / Charts JS
-4. TVMaze API / TheTVDB API 
+4. TVMaze API / TheTVDB API
 
 
 ## Wireframe
 
 ![Landing Page](./public/images/landing page.png)
+
 ![Watchlist](./public/images/Watchlist.png)
+
 ![Show Page](./public/images/show page.png)
 
 
