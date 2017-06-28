@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const FETCH_SERIES = 'FETCH_SERIES'
 export const CREATE_SHOW = 'CREATE_SHOW'
+export const FETCH_SHOWS = 'FETCH_SHOWS'
 const ROOT_URL = `http://api.tvmaze.com/singlesearch/shows?q=`
 
 export function fetchSeries(show) {
@@ -15,7 +16,6 @@ export function fetchSeries(show) {
 
 export function createShow(name) {
   const url = 'http://localhost:3000/api/v1/shows';
-  const show = JSON.stringify({name: name})
   const request = axios({
   method: 'post',
   url: url,
@@ -26,6 +26,15 @@ export function createShow(name) {
 });
   return {
     type: CREATE_SHOW,
+    payload: request
+  };
+}
+
+export function fetchShows() {
+  const url = 'http://localhost:3000/api/v1/shows';
+  const request = axios.get(url);
+  return {
+    type: FETCH_SHOWS,
     payload: request
   };
 }

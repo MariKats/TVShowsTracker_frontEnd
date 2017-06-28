@@ -4,7 +4,7 @@ import FavoritesReducer from './reducer_favorites'
 
 const rootReducer = combineReducers({
   series: SeriesReducer,
-  favorites: FavoritesReducer
+  favorites: FavoritesReducer,
 });
 
 export default rootReducer;

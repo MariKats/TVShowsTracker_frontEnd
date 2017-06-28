@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom'
 import SearchBar from '../containers/search_bar'
 import SearchedShow from '../containers/searched_show'
 
