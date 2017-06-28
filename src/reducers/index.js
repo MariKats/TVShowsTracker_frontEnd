@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import SearchedShowReducer from './reducer_searched_show'
-import FavoritesReducer from './reducer_favorites'
+import ShowsReducer from './reducer_shows'
 
 const rootReducer = combineReducers({
   searchedShow: SearchedShowReducer,
-  favorites: FavoritesReducer,
+  shows: ShowsReducer,
 });
 
 export default rootReducer;
