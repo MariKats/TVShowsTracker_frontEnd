@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import SeriesReducer from './reducer_series'
+import SearchedShowReducer from './reducer_searched_show'
 import FavoritesReducer from './reducer_favorites'
 
 const rootReducer = combineReducers({
-  series: SeriesReducer,
+  searchedShow: SearchedShowReducer,
   favorites: FavoritesReducer,
 });
 

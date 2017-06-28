@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxPromise from 'redux-promise';
-import WatchList from './containers/watch_list'
+import WatchList from './containers/watch_list';
 
 import App from './components/app';
 import reducers from './reducers';
