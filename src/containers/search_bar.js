@@ -22,7 +22,7 @@ class SearchBar extends Component {
 
   render() {
     return (
-        <form onSubmit={this.onFormSubmit} className="input-group">
+        <form onSubmit={this.onFormSubmit} className="input-group jumbotron">
             <input placeholder="Search for TV shows you want to add to your watchlist" className="form-control"
             value={this.state.term}
             onChange={this.onInputChange}/>

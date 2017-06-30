@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 import ReduxPromise from 'redux-promise';
 import WatchList from './containers/watch_list';
 import ShowPage from './components/show_page';
-
+import NavBar from './components/nav_bar'
 import App from './components/app';
 import reducers from './reducers';
 
@@ -15,11 +15,14 @@ const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
-      <Switch>
-        <Route path='/shows/:id' component={ShowPage}></Route>
-        <Route path='/shows' component={WatchList}></Route>
-        <Route path='/' component={App}></Route>
-      </Switch>
+      <div>
+        <NavBar />
+        <Switch>
+          <Route path='/shows/:id' component={ShowPage}></Route>
+          <Route path='/shows' component={WatchList}></Route>
+          <Route path='/' component={App}></Route>
+        </Switch>
+      </div>
     </BrowserRouter>
   </Provider>
   , document.querySelector('.root'));
