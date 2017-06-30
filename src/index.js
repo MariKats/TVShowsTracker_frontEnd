@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxPromise from 'redux-promise';
 import WatchList from './containers/watch_list';
-import ShowPage from './components/show_page';
+import ShowPage from './containers/show_page';
 import NavBar from './components/nav_bar'
 import App from './components/app';
 import reducers from './reducers';

@@ -4,12 +4,13 @@ export const FETCH_SEARCHED_SHOW = 'FETCH_SEARCHED_SHOW'
 export const CREATE_SHOW = 'CREATE_SHOW'
 export const CREATE_SEASON = 'CREATE_SEASON'
 export const FETCH_SHOWS = 'FETCH_SHOWS'
+export const FETCH_SEASONS = 'FETCH_SEASONS'
 export const FETCH_SHOW = 'FETCH_SHOW'
 export const DELETE_SHOW = 'DELETE_SHOW'
-const ROOT_URL = `http://api.tvmaze.com/singlesearch/shows?q=`
+const ROOT_URL = `http://api.tvmaze.com/`
 
 export function fetchSearchedShow(show) {
-  const url = `${ROOT_URL}${show}&embed=seasons`;
+  const url = `${ROOT_URL}singlesearch/shows?q=${show}`;
   const request = axios.get(url);
   return {
     type: FETCH_SEARCHED_SHOW,
@@ -17,7 +18,7 @@ export function fetchSearchedShow(show) {
   };
 }
 
-export function createShow(name, image, tvmaze_id, callback1, callback2) {
+export function createShow(name, image, tvmaze_id, callback) {
   const url = 'http://localhost:3000/api/v1/shows';
   const request = axios({
   method: 'post',
@@ -31,20 +32,28 @@ export function createShow(name, image, tvmaze_id, callback1, callback2) {
     'content-type': 'application/json'
   }
 })
-.then(() => callback1())
-.then(() => callback2()) ;
+.then(() => callback());
   return {
     type: CREATE_SHOW,
     payload: request
   };
 }
 
-export function createSeason(number) {
+export function fetchSeasons(id) {
+  const url = `${ROOT_URL}shows/${id}/seasons`;
+  const request = axios.get(url);
+  return {
+    type: FETCH_SEASONS,
+    payload: request
+  };
+}
+
+export function createSeason(id, number) {
   const url = `http://localhost:3000/api/v1/seasons`;
   const request = axios({
   method: 'post',
   url: url,
-  data: { number },
+  data: { number: number, show_id: id },
   headers: {
     'content-type': 'application/json'
   }
