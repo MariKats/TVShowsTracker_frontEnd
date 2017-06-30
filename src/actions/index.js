@@ -18,15 +18,6 @@ export function fetchSearchedShow(show) {
   };
 }
 
-export function fetchSeasons(id) {
-  const url = `${ROOT_URL}shows/${id}/seasons`;
-  const request = axios.get(url);
-  return {
-    type: FETCH_SEASONS,
-    payload: request
-  };
-}
-
 export function createShow(name, image, tvmaze_id, callback) {
   const url = 'http://localhost:3000/api/v1/shows';
   const request = axios({
@@ -41,9 +32,18 @@ export function createShow(name, image, tvmaze_id, callback) {
     'content-type': 'application/json'
   }
 })
-.then(() => callback()) ;
+.then(() => callback());
   return {
     type: CREATE_SHOW,
+    payload: request
+  };
+}
+
+export function fetchSeasons(id) {
+  const url = `${ROOT_URL}shows/${id}/seasons`;
+  const request = axios.get(url);
+  return {
+    type: FETCH_SEASONS,
     payload: request
   };
 }
