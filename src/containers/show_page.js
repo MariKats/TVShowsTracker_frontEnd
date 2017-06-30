@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchShow, deleteShow, fetchSeasons } from '../actions';
+import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes } from '../actions';
 
 class ShowPage extends Component {
   componentDidMount() {
@@ -10,7 +10,9 @@ class ShowPage extends Component {
     if (!this.props.show){
       return <p>Loading...</p>
     }
-    this.props.fetchSeasons(this.props.show.tvmaze_id);
+    const tvmaze_id = this.props.show.tvmaze_id
+    this.props.fetchSeasons(tvmaze_id);
+    this.props.fetchEpisodes(tvmaze_id)
   }
 
   onDeleteClick(){
@@ -19,16 +21,24 @@ class ShowPage extends Component {
     this.props.deleteShow(id, callback);
   }
 
+  renderEpisodes(){
+
+  }
+
     render() {
-      const { show, seasons } = this.props;
+      const { show, seasons, episodes } = this.props;
       if(!show || !seasons){
         return null
       }
         return (
           <div>
-            <div className="row text-center">
-              <div className="col-sm-4">
-                <h3>{show.name}</h3>
+            <div className="row">
+              <div className="col-sm-4 text-center">
+                <button
+                  className="btn-link"
+                  onClick={this.onDeleteClick.bind(this)}>
+                  Delete Show
+                </button>
               </div>
               <div className="col-sm-4">
                 <h3>Seasons</h3>
@@ -42,18 +52,11 @@ class ShowPage extends Component {
               <div className="col-sm-4">
                 <img className="img-responsive center-block" alt="" src={show.image} />
               </div>
-              <div className="col-sm-4 text-center">
-                  {seasons.map((s)=> <p key={s.number}> Season {s.number} </p>)}
+              <div className="col-sm-4 text-left">
+                  {seasons.map((s)=> <a onClick={this.renderEpisodes.bind(this)}><p key={s.id}> Season {s.number} </p></a>)}
               </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-4">
-                <button
-                  className="btn-link center-block"
-                  onClick={this.onDeleteClick.bind(this)}>
-                  Delete Show
-                </button>
+              <div className="col-sm-4 text-left">
+                  {episodes.map((e)=> <p key={e.id}> S{e.season}:E{e.number} - {e.name} </p>)}
               </div>
             </div>
           </div>
@@ -61,9 +64,9 @@ class ShowPage extends Component {
     }
 }
 
-function mapStateToProps({ shows, seasons }, ownProps) {
+function mapStateToProps({ shows, seasons, episodes }, ownProps) {
   return{ show: shows[ownProps.match.params.id],
-  seasons };
+  seasons, episodes };
 }
 
-export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons })(ShowPage)
+export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes })(ShowPage)

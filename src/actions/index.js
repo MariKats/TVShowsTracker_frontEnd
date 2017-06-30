@@ -5,6 +5,7 @@ export const CREATE_SHOW = 'CREATE_SHOW'
 export const CREATE_SEASON = 'CREATE_SEASON'
 export const FETCH_SHOWS = 'FETCH_SHOWS'
 export const FETCH_SEASONS = 'FETCH_SEASONS'
+export const FETCH_EPISODES = 'FETCH_EPISODES'
 export const FETCH_SHOW = 'FETCH_SHOW'
 export const DELETE_SHOW = 'DELETE_SHOW'
 const ROOT_URL = `http://api.tvmaze.com/`
@@ -39,31 +40,6 @@ export function createShow(name, image, tvmaze_id, callback) {
   };
 }
 
-export function fetchSeasons(id) {
-  const url = `${ROOT_URL}shows/${id}/seasons`;
-  const request = axios.get(url);
-  return {
-    type: FETCH_SEASONS,
-    payload: request
-  };
-}
-
-export function createSeason(id, number) {
-  const url = `http://localhost:3000/api/v1/seasons`;
-  const request = axios({
-  method: 'post',
-  url: url,
-  data: { number: number, show_id: id },
-  headers: {
-    'content-type': 'application/json'
-  }
-})
-  return {
-    type: CREATE_SEASON,
-    payload: request
-  };
-}
-
 export function fetchShows() {
   const url = 'http://localhost:3000/api/v1/shows';
   const request = axios.get(url);
@@ -88,5 +64,39 @@ export function deleteShow(id, callback) {
   return {
     type: DELETE_SHOW,
     payload: id
+  };
+}
+
+export function fetchSeasons(id) {
+  const url = `${ROOT_URL}shows/${id}/seasons`;
+  const request = axios.get(url);
+  return {
+    type: FETCH_SEASONS,
+    payload: request
+  };
+}
+
+export function createSeason(id, number) {
+  const url = `http://localhost:3000/api/v1/seasons`;
+  const request = axios({
+    method: 'post',
+    url: url,
+    data: { number: number, show_id: id },
+    headers: {
+      'content-type': 'application/json'
+    }
+  })
+  return {
+    type: CREATE_SEASON,
+    payload: request
+  };
+}
+
+export function fetchEpisodes(id) {
+  const url = `${ROOT_URL}shows/${id}/episodes`;
+  const request = axios.get(url);
+  return {
+    type: FETCH_EPISODES,
+    payload: request
   };
 }
