@@ -3,26 +3,29 @@ import { connect } from 'react-redux';
 import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes } from '../actions';
 
 class ShowPage extends Component {
+  constructor(props){
+  	super(props);
+    this.state = {
+      num: ""
+    }
+  }
   componentDidMount() {
     const { id } = this.props.match.params;
-    this.props.fetchShow(id);
-
-    if (!this.props.show){
-      return <p>Loading...</p>
-    }
-    const tvmaze_id = this.props.show.tvmaze_id
-    this.props.fetchSeasons(tvmaze_id);
-    this.props.fetchEpisodes(tvmaze_id)
+    this.props.fetchShow(id).then((show) => {
+      const tvmaze_id = show.payload.data.tvmaze_id
+      this.props.fetchSeasons(tvmaze_id)
+      this.props.fetchEpisodes(tvmaze_id)
+      }
+    )
   }
+
+  handleClick(event){
+   this.setState({num: event.target.id}, console.log(this.state.num)) }
 
   onDeleteClick(){
     const { id } = this.props.match.params;
     let callback = () => {this.props.history.push('/shows')}
     this.props.deleteShow(id, callback);
-  }
-
-  renderEpisodes(){
-
   }
 
     render() {
@@ -53,10 +56,10 @@ class ShowPage extends Component {
                 <img className="img-responsive center-block" alt="" src={show.image} />
               </div>
               <div className="col-sm-4 text-left">
-                  {seasons.map((s)=> <a onClick={this.renderEpisodes.bind(this)}><p key={s.id}> Season {s.number} </p></a>)}
+                  {seasons.map((s)=> <a onClick={this.handleClick.bind(this)}><p key={s.id} id={s.number}> Season {s.number} </p></a>)}
               </div>
               <div className="col-sm-4 text-left">
-                  {episodes.map((e)=> <p key={e.id}> S{e.season}:E{e.number} - {e.name} </p>)}
+                  {this.props.episodes.filter((e) => e.season.toString() === this.state.num).map((e)=> <p key={e.id}> S{e.season}:E{e.number} - {e.name} </p>)}
               </div>
             </div>
           </div>

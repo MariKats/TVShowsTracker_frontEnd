@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const FETCH_SEARCHED_SHOW = 'FETCH_SEARCHED_SHOW'
+export const CLEAR_SEARCHED_SHOW = 'CLEAR_SEARCHED_SHOW'
 export const CREATE_SHOW = 'CREATE_SHOW'
 export const CREATE_SEASON = 'CREATE_SEASON'
 export const FETCH_SHOWS = 'FETCH_SHOWS'
@@ -98,5 +99,11 @@ export function fetchEpisodes(id) {
   return {
     type: FETCH_EPISODES,
     payload: request
+  };
+}
+
+export function clearSearchedShow() {
+  return {
+    type: CLEAR_SEARCHED_SHOW,
   };
 }

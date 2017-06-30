@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import { createShow } from '../actions/index';
+import { createShow, clearSearchedShow } from '../actions/index';
 import PropTypes from 'prop-types';
 
 class SearchPage extends Component {
@@ -18,6 +18,7 @@ class SearchPage extends Component {
     let tvmaze_id = this.props.searchedShow.id
     let callback = () => {this.context.router.history.push('/shows')}
     this.props.createShow(name, image, tvmaze_id, callback)
+    this.props.clearSearchedShow()
   }
 
     render() {
@@ -39,4 +40,4 @@ function mapStateToProps({ searchedShow }) {
   return { searchedShow };
 }
 
-export default connect(mapStateToProps, { createShow })(SearchPage);
+export default connect(mapStateToProps, { createShow, clearSearchedShow })(SearchPage);
