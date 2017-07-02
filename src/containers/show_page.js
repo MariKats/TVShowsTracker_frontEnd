@@ -7,7 +7,7 @@ class ShowPage extends Component {
   	super(props);
     this.state = {
       num: "",
-      progress: 0
+      progress: 0,
     }
   }
   componentDidMount() {
@@ -27,11 +27,12 @@ class ShowPage extends Component {
  }
 
   onCheckChange(event) {
-    let index = event.target.id-1
-    let numbEpisodes = this.props.seasons[index].episodeOrder
+    let numbEpisodes = this.props.episodes.length
     let unit = 100/(parseInt(numbEpisodes, 10))
-   this.setState({
-     progress: this.state.progress += unit
+   this.setState(function(previous){
+     return{
+      progress: this.state.progress += unit
+     }
    })
  }
 
@@ -76,18 +77,21 @@ class ShowPage extends Component {
                       if(s.premiereDate === null) {
                         return null
                       } else {
+                        console.log(s.number)
                         return (
                           <div>
                             <a onClick={this.handleClick.bind(this)}><p key={s.id} id={s.number}> Season {s.number}</p></a>
-                            <div className="progress">
-                              <div className="progress-bar" role="progressbar" aria-valuenow={`${this.state.progress.toString()}`} aria-valuemin="0" aria-valuemax="100" style={{width:`${this.state.progress.toString()}%`}}>
-                              </div>
-                            </div>
                           </div>
                         )
                       }
                     })
                   }
+                  <h3>Progress</h3>
+                  <div className={`progress`}>
+                    <div className="progress-bar" role="progressbar"
+                     aria-valuenow={`${this.state.progress.toString()}`} aria-valuemin="0" aria-valuemax="100" style={{width:`${this.state.progress.toString()}%`}}>
+                    </div>
+                  </div>
               </div>
 
               <div className="col-sm-4 text-left">
