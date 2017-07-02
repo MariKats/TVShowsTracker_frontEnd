@@ -10,7 +10,6 @@ export default function NavBar(){
         </div>
         <ul className="nav navbar-nav">
           <li><Link to="/shows">Watchlist</Link></li>
-          <li><Link to="/about">About</Link></li>
           <li><Link to="/">Search</Link></li>
         </ul>
       </div>

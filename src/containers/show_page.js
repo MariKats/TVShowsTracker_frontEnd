@@ -6,7 +6,8 @@ class ShowPage extends Component {
   constructor(props){
   	super(props);
     this.state = {
-      num: ""
+      num: "",
+      progress: 0
     }
   }
   componentDidMount() {
@@ -19,8 +20,20 @@ class ShowPage extends Component {
     )
   }
 
-  handleClick(event){
-   this.setState({num: event.target.id}, console.log(this.state.num)) }
+  handleClick(event) {
+   this.setState({
+     num: event.target.id,
+   })
+ }
+
+  onCheckChange(event) {
+    let index = event.target.id-1
+    let numbEpisodes = this.props.seasons[index].episodeOrder
+    let unit = 100/(parseInt(numbEpisodes, 10))
+   this.setState({
+     progress: this.state.progress += unit
+   })
+ }
 
   onDeleteClick(){
     const { id } = this.props.match.params;
@@ -52,14 +65,42 @@ class ShowPage extends Component {
             </div>
 
             <div className="row">
+
               <div className="col-sm-4">
                 <img className="img-responsive center-block" alt="" src={show.image} />
               </div>
+
               <div className="col-sm-4 text-left">
-                  {seasons.map((s)=> <a onClick={this.handleClick.bind(this)}><p key={s.id} id={s.number}> Season {s.number} </p></a>)}
+                  {
+                    seasons.map((s)=> {
+                      if(s.premiereDate === null) {
+                        return null
+                      } else {
+                        return (
+                          <div>
+                            <a onClick={this.handleClick.bind(this)}><p key={s.id} id={s.number}> Season {s.number}</p></a>
+                            <div className="progress">
+                              <div className="progress-bar" role="progressbar" aria-valuenow={`${this.state.progress.toString()}`} aria-valuemin="0" aria-valuemax="100" style={{width:`${this.state.progress.toString()}%`}}>
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      }
+                    })
+                  }
               </div>
+
               <div className="col-sm-4 text-left">
-                  {this.props.episodes.filter((e) => e.season.toString() === this.state.num).map((e)=> <p key={e.id}> S{e.season}:E{e.number} - {e.name} </p>)}
+
+                    {episodes.filter((e) => e.season.toString() === this.state.num).map((e)=> {
+                      return (
+                        <div className="checkbox">
+                          <label>
+                            <input type="checkbox" onChange={this.onCheckChange.bind(this)} id={e.season} key={e.id}/>{e.number}. {e.name}
+                          </label>
+                        </div>
+                      )}
+                    )}
               </div>
             </div>
           </div>
