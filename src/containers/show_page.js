@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason } from '../actions';
+import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode } from '../actions';
 
 class ShowPage extends Component {
   constructor(props){
@@ -14,8 +14,14 @@ class ShowPage extends Component {
     const { id } = this.props.match.params;
     this.props.fetchShow(id).then((show) => {
       const tvmaze_id = show.payload.data.tvmaze_id
-      this.props.fetchSeasons(tvmaze_id).then((seasons)=> this.props.seasons.map(season => this.props.createSeason(id, season.number, season.episodeOrder)))
-      this.props.fetchEpisodes(tvmaze_id)
+      this.props.fetchSeasons(tvmaze_id)
+      .then((seasons)=> seasons.payload.data.map(season => this.props.createSeason(id, season.number, season.episodeOrder)))
+      .then(()=>this.props.fetchCreatedSeasons())
+      .then(()=>this.props.fetchEpisodes(tvmaze_id))
+      .then((episodes)=> {
+        let season_id = (n) => this.props.created_seasons.find(s => s.number === n ).id
+        episodes.payload.data.map(episode => this.props.createEpisode(season_id(episode.season), episode.season, episode.number, episode.name))
+        })
       }
     )
   }
@@ -77,7 +83,6 @@ class ShowPage extends Component {
                       if(s.premiereDate === null) {
                         return null
                       } else {
-                        console.log(s.number)
                         return (
                           <div>
                             <a onClick={this.handleClick.bind(this)}><p key={s.id} id={s.number}> Season {s.number}</p></a>
@@ -111,9 +116,9 @@ class ShowPage extends Component {
     }
 }
 
-function mapStateToProps({ shows, seasons, episodes }, ownProps) {
+function mapStateToProps({ shows, seasons, created_seasons, episodes }, ownProps) {
   return{ show: shows[ownProps.match.params.id],
-  seasons, episodes };
+  seasons, created_seasons, episodes };
 }
 
-export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason })(ShowPage)
+export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode })(ShowPage)

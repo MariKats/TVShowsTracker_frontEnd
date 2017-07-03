@@ -1,9 +1,11 @@
 import axios from 'axios';
 
 export const FETCH_SEARCHED_SHOW = 'FETCH_SEARCHED_SHOW'
+export const FETCH_CREATED_SEASONS = 'FETCH_CREATED_SEASONS'
 export const CLEAR_SEARCHED_SHOW = 'CLEAR_SEARCHED_SHOW'
 export const CREATE_SHOW = 'CREATE_SHOW'
 export const CREATE_SEASON = 'CREATE_SEASON'
+export const CREATE_EPISODE = 'CREATE_EPISODE'
 export const FETCH_SHOWS = 'FETCH_SHOWS'
 export const FETCH_SEASONS = 'FETCH_SEASONS'
 export const FETCH_EPISODES = 'FETCH_EPISODES'
@@ -93,11 +95,36 @@ export function createSeason(id, number, episodeOrder) {
   };
 }
 
+export function fetchCreatedSeasons() {
+  const url = `http://localhost:3000/api/v1/seasons`;
+  const request = axios.get(url);
+  return {
+    type: FETCH_CREATED_SEASONS,
+    payload: request
+  };
+}
+
 export function fetchEpisodes(id) {
   const url = `${ROOT_URL}shows/${id}/episodes`;
   const request = axios.get(url);
   return {
     type: FETCH_EPISODES,
+    payload: request
+  };
+}
+
+export function createEpisode(id, season_number, number, name) {
+  const url = `http://localhost:3000/api/v1/episodes`;
+  const request = axios({
+    method: 'post',
+    url: url,
+    data: { season_id: id, season_number: season_number, number: number, name: name },
+    headers: {
+      'content-type': 'application/json'
+    }
+  })
+  return {
+    type: CREATE_EPISODE,
     payload: request
   };
 }
