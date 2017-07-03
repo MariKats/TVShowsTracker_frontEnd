@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes } from '../actions';
+import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason } from '../actions';
 
 class ShowPage extends Component {
   constructor(props){
@@ -14,7 +14,7 @@ class ShowPage extends Component {
     const { id } = this.props.match.params;
     this.props.fetchShow(id).then((show) => {
       const tvmaze_id = show.payload.data.tvmaze_id
-      this.props.fetchSeasons(tvmaze_id)
+      this.props.fetchSeasons(tvmaze_id).then((seasons)=> this.props.seasons.map(season => this.props.createSeason(id, season.number, season.episodeOrder)))
       this.props.fetchEpisodes(tvmaze_id)
       }
     )
@@ -95,7 +95,6 @@ class ShowPage extends Component {
               </div>
 
               <div className="col-sm-4 text-left">
-
                     {episodes.filter((e) => e.season.toString() === this.state.num).map((e)=> {
                       return (
                         <div className="checkbox">
@@ -117,4 +116,4 @@ function mapStateToProps({ shows, seasons, episodes }, ownProps) {
   seasons, episodes };
 }
 
-export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes })(ShowPage)
+export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason })(ShowPage)

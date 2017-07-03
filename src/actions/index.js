@@ -77,12 +77,12 @@ export function fetchSeasons(id) {
   };
 }
 
-export function createSeason(id, number) {
+export function createSeason(id, number, episodeOrder) {
   const url = `http://localhost:3000/api/v1/seasons`;
   const request = axios({
     method: 'post',
     url: url,
-    data: { number: number, show_id: id },
+    data: { number: number, show_id: id, number_of_episodes: episodeOrder },
     headers: {
       'content-type': 'application/json'
     }
