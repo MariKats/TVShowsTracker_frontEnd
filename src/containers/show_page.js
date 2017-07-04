@@ -13,29 +13,20 @@ class ShowPage extends Component {
 
   componentDidMount() {
     const { id } = this.props.match.params;
-    this.props.fetchShow(id)
-
-      .then((show) => {
-        const tvmaze_id = show.payload.data.tvmaze_id
-        this.props.fetchSeasons(tvmaze_id)
-
-        .then((seasons)=> seasons.payload.data.map(season => this.props.createSeason(id, season.number, season.episodeOrder)))
-
-        .then(()=>this.props.fetchCreatedSeasons()).then(seas => console.log(seas))
-
-        .then(()=>this.props.fetchEpisodes(tvmaze_id))
-
-        .then((episodes)=> {
-          console.log(episodes)
-          let a = this.props.created_seasons[0].show.id.toString()
-          console.log(a === id)
-            const season_id = (seasons_number) => this.props.created_seasons.find(season =>  season.number === seasons_number && season.show.id.toString() === id).id
-
-            episodes.payload.data.map(episode => this.props.createEpisode(season_id(episode.season), episode.season, episode.number, episode.name)
-            )
-          })
-        }
-    )
+    this.props.fetchShow(id).then((show) => {
+    const tvmaze_id = show.payload.data.tvmaze_id
+    this.props.fetchSeasons(tvmaze_id)
+    .then((seasons)=> seasons.payload.data.map(season => this.props.createSeason(id, season.number, season.episodeOrder)))
+    .then(()=>this.props.fetchCreatedSeasons())
+    .then(()=>this.props.fetchEpisodes(tvmaze_id))
+    .then((episodes)=> {
+        const find_season_id = (seasons_number) => this.props.created_seasons.find(season => season.number === seasons_number && season.show.id.toString() === id)
+        episodes.payload.data.map(episode => {
+            const season_id = find_season_id(episode.season).id
+            this.props.createEpisode(season_id, episode.season, episode.number, episode.name)
+        })
+      })
+    })
   }
 
   handleClick(event) {
