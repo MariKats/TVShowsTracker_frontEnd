@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode } from '../actions';
+import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode } from '../actions';
 
 class ShowPage extends Component {
   constructor(props){
@@ -36,7 +36,7 @@ class ShowPage extends Component {
  }
 
   onCheckChange(event) {
-
+    console.log(event.target)
     let numbEpisodes = this.props.episodes.length
     let unit = 100/(parseInt(numbEpisodes, 10))
    this.setState(function(previous){
@@ -44,6 +44,9 @@ class ShowPage extends Component {
       progress: this.state.progress += unit
      }
    })
+   const id = event.target.id
+   const watched = !!event.target.checked
+   this.props.updateEpisode(id, watched)
  }
 
   onDeleteClick(){
@@ -54,31 +57,28 @@ class ShowPage extends Component {
 
   createCheckboxes(){
     console.log("createBoxes=====",this.state.num, this.props.created_seasons);
-    if(this.state.num && this.props.created_seasons){
+    if(this.state.num && this.props.created_seasons.length>0){
       console.log("true true");
-    const episodesBoxes = this.props.created_seasons.find((s) => s.id == this.state.num).episodes.map((e)=> {
+    const episodesBoxes = this.props.created_seasons.find(s => s.number == this.state.num).episodes.map((e)=> {
       if(e.watched){
         return (
           <div className="checkbox">
             <label>
-              <input type="checkbox" checked onClick={this.onCheckChange.bind(this)} id={e.season} key={e.id}/>{e.number}. {e.name}
+              <input type="checkbox" checked onClick={this.onCheckChange.bind(this)} id={e.id} key={e.id}/>{e.number}. {e.name}
             </label>
           </div>
-        )}
-
-    else{
+        )} else {
       return (
         <div className="checkbox">
           <label>
-            <input type="checkbox" onClick={this.onCheckChange.bind(this)} id={e.season} key={e.id}/>{e.number}. {e.name}
+            <input type="checkbox" onClick={this.onCheckChange.bind(this)} id={e.id} key={e.id}/>{e.number}. {e.name}
           </label>
         </div>
       )}
-    }
-    )
+    })
     return episodesBoxes
   }
-  }
+}
 
     render() {
       const { show, seasons, episodes, created_seasons } = this.props;
@@ -145,4 +145,4 @@ function mapStateToProps({ shows, seasons, created_seasons, episodes }, ownProps
   seasons, created_seasons, episodes };
 }
 
-export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode })(ShowPage)
+export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode })(ShowPage)

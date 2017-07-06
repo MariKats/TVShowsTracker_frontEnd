@@ -6,6 +6,7 @@ export const CLEAR_SEARCHED_SHOW = 'CLEAR_SEARCHED_SHOW'
 export const CREATE_SHOW = 'CREATE_SHOW'
 export const CREATE_SEASON = 'CREATE_SEASON'
 export const CREATE_EPISODE = 'CREATE_EPISODE'
+export const UPDATE_EPISODE = 'UPDATE_EPISODE'
 export const FETCH_SHOWS = 'FETCH_SHOWS'
 export const FETCH_SEASONS = 'FETCH_SEASONS'
 export const FETCH_EPISODES = 'FETCH_EPISODES'
@@ -125,6 +126,22 @@ export function createEpisode(id, season_number, number, name) {
   })
   return {
     type: CREATE_EPISODE,
+    payload: request
+  };
+}
+
+export function updateEpisode(id, watched) {
+  const url = `http://localhost:3000/api/v1/episodes/${id}`;
+  const request = axios({
+    method: 'patch',
+    url: url,
+    data: { watched: watched},
+    headers: {
+      'content-type': 'application/json'
+    }
+  })
+  return {
+    type: UPDATE_EPISODE,
     payload: request
   };
 }
