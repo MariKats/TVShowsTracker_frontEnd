@@ -80,7 +80,7 @@ export function fetchSeasons(id) {
   };
 }
 
-export function createSeason(id, number, episodeOrder) {
+export function createSeason(id, number, episodeOrder, watched) {
   const url = `http://localhost:3000/api/v1/seasons`;
   const request = axios({
     method: 'post',
@@ -114,12 +114,12 @@ export function fetchEpisodes(id) {
   };
 }
 
-export function createEpisode(id, season_number, number, name) {
+export function createEpisode(id, season_number, number, name, watched) {
   const url = `http://localhost:3000/api/v1/episodes`;
   const request = axios({
     method: 'post',
     url: url,
-    data: { season_id: id, season_number: season_number, number: number, name: name },
+    data: { season_id: id, season_number: season_number, number: number, name: name, watched: watched },
     headers: {
       'content-type': 'application/json'
     }

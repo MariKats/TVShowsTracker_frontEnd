@@ -7,7 +7,6 @@ class ShowPage extends Component {
   	super(props);
     this.state = {
       num: "",
-      progress: 0,
     }
   }
 
@@ -17,14 +16,16 @@ class ShowPage extends Component {
     const tvmaze_id = show.payload.data.tvmaze_id
     this.props.fetchSeasons(tvmaze_id)
     .then((seasons)=> seasons.payload.data.map(season => this.props.createSeason(id, season.number, season.episodeOrder)))
-    .then(()=>this.props.fetchCreatedSeasons())
+    .then(()=>this.props.fetchCreatedSeasons()).then(res => console.log(res))
     .then(()=>this.props.fetchEpisodes(tvmaze_id))
     .then((episodes)=> {
+      if(this.props.created_seasons){
         const find_season_id = (seasons_number) => this.props.created_seasons.find(season => season.number === seasons_number && season.show.id.toString() === id)
         episodes.payload.data.map(episode => {
             const season_id = find_season_id(episode.season).id
-            this.props.createEpisode(season_id, episode.season, episode.number, episode.name)
+            this.props.createEpisode(season_id, episode.season, episode.number, episode.name, false)
         })
+      }
       })
     })
   }
@@ -36,17 +37,9 @@ class ShowPage extends Component {
  }
 
   onCheckChange(event) {
-    console.log(event.target)
-    let numbEpisodes = this.props.episodes.length
-    let unit = 100/(parseInt(numbEpisodes, 10))
-   this.setState(function(previous){
-     return{
-      progress: this.state.progress += unit
-     }
-   })
    const id = event.target.id
-   const watched = !!event.target.checked
-   this.props.updateEpisode(id, watched)
+   const watched = event.target.checked
+   this.props.updateEpisode(id, !!watched).then(res => console.log(res))
  }
 
   onDeleteClick(){
@@ -60,26 +53,47 @@ class ShowPage extends Component {
     console.log("createBoxes=====",this.state.num, this.props.created_seasons);
     if(this.state.num && this.props.created_seasons.length>0){
       console.log("true true");
-    const episodesBoxes = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id).episodes.map((e)=> {
-      if(e.watched){
+    const episodes = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id).episodes.sort((a, b) => a.number - b.number )
+    const checks = episodes.map((e)=> {
+      if(e.watched === true){
+        console.log("watched === true", e)
         return (
           <div className="checkbox">
             <label>
-              <input type="checkbox" checked onClick={this.onCheckChange.bind(this)} id={e.id} key={e.id}/>{e.number}. {e.name}
+              <input type="checkbox" checked onChange={this.onCheckChange.bind(this)} id={e.id} key={e.id}/>{e.number}. {e.name}
             </label>
           </div>
         )} else {
+          console.log("watched === false", e)
       return (
         <div className="checkbox">
           <label>
-            <input type="checkbox" onClick={this.onCheckChange.bind(this)} id={e.id} key={e.id}/>{e.number}. {e.name}
+            <input type="checkbox" onChange={this.onCheckChange.bind(this)} id={e.id} key={e.id}/>{e.number}. {e.name}
           </label>
         </div>
       )}
     })
-    return episodesBoxes
+    return checks
   }
 }
+
+renderProgressBar(){
+  console.log("progressbar=======", this.state.num, this.props.created_seasons)
+  if(this.state.num && this.props.created_seasons.length>0){
+  const { id } = this.props.match.params;
+  const episodes = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id).episodes
+  const total = episodes.length
+  const watched = episodes.filter(e => e.watched === true).length
+  const progress = (watched/total)*100
+  return(
+    <div className="progress-bar" role="progressbar"
+     aria-valuenow={`${progress}`} aria-valuemin="0" aria-valuemax="100" style={{width:`${progress}%`}}>
+    </div>
+    )
+  }
+}
+
+
 
     render() {
       const { show, seasons, episodes, created_seasons } = this.props;
@@ -125,10 +139,8 @@ class ShowPage extends Component {
                     })
                   }
                   <h3>Progress</h3>
-                  <div className={`progress`}>
-                    <div className="progress-bar" role="progressbar"
-                     aria-valuenow={`${this.state.progress.toString()}`} aria-valuemin="0" aria-valuemax="100" style={{width:`${this.state.progress.toString()}%`}}>
-                    </div>
+                  <div className="progress">
+                    {this.renderProgressBar()}
                   </div>
               </div>
 
