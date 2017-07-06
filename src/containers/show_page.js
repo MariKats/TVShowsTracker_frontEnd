@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Image, Button } from 'semantic-ui-react'
+import { Grid, Image, Button, Card, Rating } from 'semantic-ui-react'
 import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode } from '../actions';
 
 class ShowPage extends Component {
@@ -106,10 +106,21 @@ renderProgressBar(){
 
             <Grid.Row>
             <Grid.Column width={4}>
-                <img className="img-responsive center-block" alt="" src={show.image} />
+              <Card centered size="small">
+                <Image src={show.image}/>
+                <Card.Content>
+                  <Button attached="bottom"
+                    onClick={this.onDeleteClick.bind(this)}>
+                    Delete Show
+                  </Button>
+                </Card.Content>
+                <Card.Content extra>
+                  <Rating icon='star' defaultRating={0} maxRating={5} size='large'/>
+                </Card.Content>
+              </Card>
               </Grid.Column>
               <Grid.Column width={6}>
-                <h3>Seasons</h3>
+                <h2>Seasons</h2>
                 {
                   seasons.map((s)=> {
                     if(s.premiereDate === null) {
@@ -123,30 +134,15 @@ renderProgressBar(){
                     }
                   })
                 }
+                <h2>Progress</h2>
+                <div className="progress fluid">
+                  {this.renderProgressBar()}
+                </div>
               </Grid.Column>
               <Grid.Column width={6}>
-                <h3>Episodes</h3>
+                <h2>Episodes</h2>
                     {this.createCheckboxes()}
               </Grid.Column>
-            </Grid.Row>
-
-            <Grid.Row>
-
-              <Grid.Column width={4}>
-                <Button attached="bottom"
-                  onClick={this.onDeleteClick.bind(this)}>
-                  Delete Show
-                </Button>
-              </Grid.Column>
-
-              <Grid.Column width={12} centered>
-                  <div className="progress fluid">
-                    {this.renderProgressBar()}
-                  </div>
-              </Grid.Column>
-
-
-
             </Grid.Row>
           </Grid>
         );
