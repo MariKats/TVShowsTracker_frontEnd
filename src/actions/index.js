@@ -7,6 +7,7 @@ export const CREATE_SHOW = 'CREATE_SHOW'
 export const CREATE_SEASON = 'CREATE_SEASON'
 export const CREATE_EPISODE = 'CREATE_EPISODE'
 export const UPDATE_EPISODE = 'UPDATE_EPISODE'
+export const UPDATE_RATING = 'UPDATE_RATING'
 export const FETCH_SHOWS = 'FETCH_SHOWS'
 export const FETCH_SEASONS = 'FETCH_SEASONS'
 export const FETCH_EPISODES = 'FETCH_EPISODES'
@@ -142,6 +143,22 @@ export function updateEpisode(id, watched) {
   })
   return {
     type: UPDATE_EPISODE,
+    payload: request
+  };
+}
+
+export function updateRating(id, rating) {
+  const url = `http://localhost:3000/api/v1/shows/${id}`;
+  const request = axios({
+    method: 'patch',
+    url: url,
+    data: { rating: rating},
+    headers: {
+      'content-type': 'application/json'
+    }
+  })
+  return {
+    type: UPDATE_RATING,
     payload: request
   };
 }

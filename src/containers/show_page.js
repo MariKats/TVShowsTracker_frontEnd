@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Image, Button, Card, Rating } from 'semantic-ui-react'
-import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode } from '../actions';
+import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode, updateRating } from '../actions';
 
 class ShowPage extends Component {
   constructor(props){
@@ -51,7 +51,7 @@ class ShowPage extends Component {
 
   createCheckboxes(){
     const { id } = this.props.match.params;
-    console.log("createBoxes=====",this.state.num, this.props.created_seasons);
+    console.log("createBoxes=====",this.state.num, this.props.created_seasons.length);
     if(this.state.num && this.props.created_seasons.length>0){
       console.log("true true");
     const episodes = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id).episodes.sort((a, b) => a.number - b.number )
@@ -79,7 +79,7 @@ class ShowPage extends Component {
 }
 
 renderProgressBar(){
-  console.log("progressbar=======", this.state.num, this.props.created_seasons)
+  console.log("progressbar=======", this.state.num, this.props.created_seasons.length)
   if(this.state.num && this.props.created_seasons.length>0){
   const { id } = this.props.match.params;
   const episodes = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id).episodes
@@ -94,7 +94,10 @@ renderProgressBar(){
   }
 }
 
-
+  onClickRating(event, data){
+    const { id } = this.props.match.params;
+    this.props.updateRating(id, data.rating).then(res => console.log(res))
+  }
 
     render() {
       const { show, seasons, episodes, created_seasons } = this.props;
@@ -115,7 +118,7 @@ renderProgressBar(){
                   </Button>
                 </Card.Content>
                 <Card.Content extra>
-                  <Rating icon='star' defaultRating={0} maxRating={5} size='large'/>
+                  <Rating icon='star' defaultRating={this.props.show.rating} maxRating={5} size='large' onRate={this.onClickRating.bind(this)}/>
                 </Card.Content>
               </Card>
               </Grid.Column>
@@ -154,4 +157,4 @@ function mapStateToProps({ shows, seasons, created_seasons, episodes }, ownProps
   seasons, created_seasons, episodes };
 }
 
-export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode })(ShowPage)
+export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode, updateRating })(ShowPage)
