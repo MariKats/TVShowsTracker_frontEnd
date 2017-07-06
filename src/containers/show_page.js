@@ -56,10 +56,11 @@ class ShowPage extends Component {
   }
 
   createCheckboxes(){
+    const { id } = this.props.match.params;
     console.log("createBoxes=====",this.state.num, this.props.created_seasons);
     if(this.state.num && this.props.created_seasons.length>0){
       console.log("true true");
-    const episodesBoxes = this.props.created_seasons.find(s => s.number == this.state.num).episodes.map((e)=> {
+    const episodesBoxes = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id).episodes.map((e)=> {
       if(e.watched){
         return (
           <div className="checkbox">
