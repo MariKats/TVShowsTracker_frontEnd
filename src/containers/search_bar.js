@@ -22,7 +22,9 @@ class SearchBar extends Component {
 
   render() {
     return (
-        <form onSubmit={this.onFormSubmit} className="input-group jumbotron">
+
+      <div className='container'>
+        <form onSubmit={this.onFormSubmit} className="input-group">
             <input placeholder="Search for TV shows you want to add to your watchlist" className="form-control"
             value={this.state.term}
             onChange={this.onInputChange}/>
@@ -30,6 +32,7 @@ class SearchBar extends Component {
               <button type="submit" className="btn btn-secondary">Submit</button>
             </span>
         </form>
+      </div>
     );
   }
 }

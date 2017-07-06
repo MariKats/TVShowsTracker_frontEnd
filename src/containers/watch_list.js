@@ -3,13 +3,16 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchShows } from '../actions/index';
+import { Card, Image, Container } from 'semantic-ui-react'
 
 class WatchList extends Component {
   renderShow(show){
     return (
+    <Card fluid>
       <Link to={`/shows/${show.id}`} key={show.id} >
-        <img className="image" alt="" src={show.image}/>
+        <Image src={show.image}/>
        </Link>
+     </Card>
     )
   }
 
@@ -22,9 +25,11 @@ class WatchList extends Component {
         return (<p>Loading...</p>)
       }
         return (
-          <div>
-              {_.map(this.props.shows, s=> this.renderShow(s))}
-          </div>
+          <Container fluid>
+            <Card.Group itemsPerRow={5} centered>
+                {_.map(this.props.shows, s=> this.renderShow(s))}
+            </Card.Group>
+          </Container>
         );
     }
 }

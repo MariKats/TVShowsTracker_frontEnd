@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Image, Button } from 'semantic-ui-react'
+import { Grid, Image } from 'semantic-ui-react'
 import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode } from '../actions';
 
 class ShowPage extends Component {
@@ -102,53 +102,54 @@ renderProgressBar(){
         return null
       }
         return (
-          <Grid celled>
-
-            <Grid.Row>
-            <Grid.Column width={4}>
-                <img className="img-responsive center-block" alt="" src={show.image} />
-              </Grid.Column>
-              <Grid.Column width={6}>
-                <h3>Seasons</h3>
-                {
-                  seasons.map((s)=> {
-                    if(s.premiereDate === null) {
-                      return null
-                    } else {
-                      return (
-                        <div>
-                          <a onClick={this.handleClick.bind(this)}><p key={s.id} id={s.number}> Season {s.number}</p></a>
-                        </div>
-                      )
-                    }
-                  })
-                }
-              </Grid.Column>
-              <Grid.Column width={6}>
-                <h3>Episodes</h3>
-                    {this.createCheckboxes()}
-              </Grid.Column>
-            </Grid.Row>
-
-            <Grid.Row>
-
-              <Grid.Column width={4}>
-                <Button attached="bottom"
+          <div>
+            <div className="row">
+              <div className="col-sm-4 text-center">
+                <button
+                  className="btn-link"
                   onClick={this.onDeleteClick.bind(this)}>
                   Delete Show
-                </Button>
-              </Grid.Column>
+                </button>
+              </div>
+              <div className="col-sm-4">
+                <h3>Seasons</h3>
+              </div>
+              <div className="col-sm-4">
+                <h3>Episodes</h3>
+              </div>
+            </div>
 
-              <Grid.Column width={12} centered>
-                  <div className="progress fluid">
+            <div className="row">
+
+              <div className="col-sm-4">
+                <img className="img-responsive center-block" alt="" src={show.image} />
+              </div>
+
+              <div className="col-sm-4 text-left">
+                  {
+                    seasons.map((s)=> {
+                      if(s.premiereDate === null) {
+                        return null
+                      } else {
+                        return (
+                          <div>
+                            <a onClick={this.handleClick.bind(this)}><p key={s.id} id={s.number}> Season {s.number}</p></a>
+                          </div>
+                        )
+                      }
+                    })
+                  }
+                  <h3>Progress</h3>
+                  <div className="progress">
                     {this.renderProgressBar()}
                   </div>
-              </Grid.Column>
+              </div>
 
-
-
-            </Grid.Row>
-          </Grid>
+              <div className="col-sm-4 text-left">
+                  {this.createCheckboxes()}
+              </div>
+            </div>
+          </div>
         );
     }
 }

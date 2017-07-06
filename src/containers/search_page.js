@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { createShow, clearSearchedShow } from '../actions/index';
 import PropTypes from 'prop-types';
+import { Image, Card, Button } from 'semantic-ui-react';
 
 class SearchPage extends Component {
   static contextTypes = {
@@ -25,13 +26,15 @@ class SearchPage extends Component {
       if (!this.props.searchedShow.image){
         return null
       }
-      let image = this.props.searchedShow.image.medium
+      let image = this.props.searchedShow.image.original
 
         return (
-            <div>
-              <img alt="" src={image}></img>
-                <p><button onClick={this.handleClick} className="btn btn-secondary">Add to your watchlist</button></p>
-            </div>
+            <Card centered size="small">
+              <Image src={image}/>
+              <Card.Content>
+              <Button onClick={this.handleClick} className="btn btn-secondary" attached='top'>Add to your watchlist</Button>
+              </Card.Content>
+            </Card>
         );
     }
 }
