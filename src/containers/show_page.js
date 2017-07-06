@@ -36,6 +36,7 @@ class ShowPage extends Component {
  }
 
   onCheckChange(event) {
+
     let numbEpisodes = this.props.episodes.length
     let unit = 100/(parseInt(numbEpisodes, 10))
    this.setState(function(previous){
@@ -51,8 +52,36 @@ class ShowPage extends Component {
     this.props.deleteShow(id, callback);
   }
 
+  createCheckboxes(){
+    console.log("createBoxes=====",this.state.num, this.props.created_seasons);
+    if(this.state.num && this.props.created_seasons){
+      console.log("true true");
+    const episodesBoxes = this.props.created_seasons.find((s) => s.id == this.state.num).episodes.map((e)=> {
+      if(e.watched){
+        return (
+          <div className="checkbox">
+            <label>
+              <input type="checkbox" checked onClick={this.onCheckChange.bind(this)} id={e.season} key={e.id}/>{e.number}. {e.name}
+            </label>
+          </div>
+        )}
+
+    else{
+      return (
+        <div className="checkbox">
+          <label>
+            <input type="checkbox" onClick={this.onCheckChange.bind(this)} id={e.season} key={e.id}/>{e.number}. {e.name}
+          </label>
+        </div>
+      )}
+    }
+    )
+    return episodesBoxes
+  }
+  }
+
     render() {
-      const { show, seasons, episodes } = this.props;
+      const { show, seasons, episodes, created_seasons } = this.props;
       if(!show || !seasons){
         return null
       }
@@ -103,15 +132,7 @@ class ShowPage extends Component {
               </div>
 
               <div className="col-sm-4 text-left">
-                    {episodes.filter((e) => e.season.toString() === this.state.num).map((e)=> {
-                      return (
-                        <div className="checkbox">
-                          <label>
-                            <input type="checkbox" onChange={this.onCheckChange.bind(this)} id={e.season} key={e.id}/>{e.number}. {e.name}
-                          </label>
-                        </div>
-                      )}
-                    )}
+                  {this.createCheckboxes()}
               </div>
             </div>
           </div>
