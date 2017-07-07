@@ -14,6 +14,8 @@ export const FETCH_EPISODES = 'FETCH_EPISODES'
 export const FETCH_SHOW = 'FETCH_SHOW'
 export const DELETE_SHOW = 'DELETE_SHOW'
 const ROOT_URL = `http://api.tvmaze.com/`
+const HEROKU_URL = `https://tvshowstracker-api.herokuapp.com/`
+const URL = `http://localhost:3000`
 
 export function fetchSearchedShow(show) {
   const url = `${ROOT_URL}singlesearch/shows?q=${show}`;
@@ -25,7 +27,7 @@ export function fetchSearchedShow(show) {
 }
 
 export function createShow(name, image, tvmaze_id, callback) {
-  const url = 'http://localhost:3000/api/v1/shows';
+  const url = `${HEROKU_URL}/api/v1/shows`;
   const request = axios({
   method: 'post',
   url: url,
@@ -46,7 +48,7 @@ export function createShow(name, image, tvmaze_id, callback) {
 }
 
 export function fetchShows() {
-  const url = 'http://localhost:3000/api/v1/shows';
+  const url = `${HEROKU_URL}/api/v1/shows`;
   const request = axios.get(url);
   return {
     type: FETCH_SHOWS,
@@ -55,7 +57,7 @@ export function fetchShows() {
 }
 
 export function fetchShow(id) {
-  const url = `http://localhost:3000/api/v1/shows/${id}`;
+  const url = `${HEROKU_URL}/api/v1/shows/${id}`;
   const request = axios.get(url);
   return {
     type: FETCH_SHOW,
@@ -64,7 +66,7 @@ export function fetchShow(id) {
 }
 
 export function deleteShow(id, callback) {
-  const url = `http://localhost:3000/api/v1/shows/${id}`;
+  const url = `${HEROKU_URL}/api/v1/shows/${id}`;
   axios.delete(url).then(()=>callback());
   return {
     type: DELETE_SHOW,
@@ -82,7 +84,7 @@ export function fetchSeasons(id) {
 }
 
 export function createSeason(id, number, episodeOrder, watched) {
-  const url = `http://localhost:3000/api/v1/seasons`;
+  const url = `${HEROKU_URL}/api/v1/seasons`;
   const request = axios({
     method: 'post',
     url: url,
@@ -98,7 +100,7 @@ export function createSeason(id, number, episodeOrder, watched) {
 }
 
 export function fetchCreatedSeasons() {
-  const url = `http://localhost:3000/api/v1/seasons`;
+  const url = `${HEROKU_URL}/api/v1/seasons`;
   const request = axios.get(url);
   return {
     type: FETCH_CREATED_SEASONS,
@@ -116,7 +118,7 @@ export function fetchEpisodes(id) {
 }
 
 export function createEpisode(id, season_number, number, name, watched) {
-  const url = `http://localhost:3000/api/v1/episodes`;
+  const url = `${HEROKU_URL}/api/v1/episodes`;
   const request = axios({
     method: 'post',
     url: url,
@@ -132,7 +134,7 @@ export function createEpisode(id, season_number, number, name, watched) {
 }
 
 export function updateEpisode(id, watched) {
-  const url = `http://localhost:3000/api/v1/episodes/${id}`;
+  const url = `${HEROKU_URL}/api/v1/episodes/${id}`;
   const request = axios({
     method: 'patch',
     url: url,
@@ -148,7 +150,7 @@ export function updateEpisode(id, watched) {
 }
 
 export function updateRating(id, rating) {
-  const url = `http://localhost:3000/api/v1/shows/${id}`;
+  const url = `${HEROKU_URL}/api/v1/shows/${id}`;
   const request = axios({
     method: 'patch',
     url: url,
