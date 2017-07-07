@@ -17,7 +17,7 @@ class ShowPage extends Component {
     const tvmaze_id = show.payload.data.tvmaze_id
     this.props.fetchSeasons(tvmaze_id)
     .then((seasons)=> seasons.payload.data.map(season => this.props.createSeason(id, season.number, season.episodeOrder)))
-    .then(()=>this.props.fetchCreatedSeasons()).then(res => console.log(res))
+    .then(()=>this.props.fetchCreatedSeasons(id)).then(res => console.log(res))
     .then(()=>this.props.fetchEpisodes(tvmaze_id))
     .then((episodes)=> {
         const find_season_id = (seasons_number) => this.props.created_seasons.find(season => season.number === seasons_number && season.show.id.toString() === id)
@@ -29,6 +29,13 @@ class ShowPage extends Component {
         })
       })
     })
+  }
+
+  componentDidUpdate(prevProps) {
+    const id = this.props.match.params
+    if (prevProps !== this.props) {
+      this.props.fetchCreatedSeasons(id)
+    }
   }
 
   handleClick(event) {
