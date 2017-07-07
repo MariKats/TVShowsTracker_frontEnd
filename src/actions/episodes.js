@@ -4,7 +4,7 @@ export const CREATE_EPISODE = 'CREATE_EPISODE'
 export const FETCH_EPISODES = 'FETCH_EPISODES'
 
 export function fetchEpisodes(id) {
-  const url = `http://api.tvmaze.com/shows/${id}/episodes`;
+  const url = `https://api.tvmaze.com/shows/${id}/episodes`;
   const request = axios.get(url);
   return {
     type: FETCH_EPISODES,

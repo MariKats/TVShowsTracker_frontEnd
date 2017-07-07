@@ -13,8 +13,8 @@ export const FETCH_SEASONS = 'FETCH_SEASONS'
 export const FETCH_EPISODES = 'FETCH_EPISODES'
 export const FETCH_SHOW = 'FETCH_SHOW'
 export const DELETE_SHOW = 'DELETE_SHOW'
-const ROOT_URL = `http://api.tvmaze.com/`
-const HEROKU_URL = `https://tvshowstracker-api.herokuapp.com/`
+const ROOT_URL = `https://api.tvmaze.com/`
+const HEROKU_URL = `https://tvshowstracker-api.herokuapp.com`
 const URL = `http://localhost:3000`
 
 export function fetchSearchedShow(show) {
