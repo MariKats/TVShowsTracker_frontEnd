@@ -40,7 +40,7 @@ export default class NavBar extends Component {
             name='log_in'
             active={activeItem === 'log_in'}
             onClick={this.handleItemClick}>
-            Log In
+            <Link to="/login">Log In</Link>
           </Menu.Item>
         </Menu.Menu>
       </Menu>

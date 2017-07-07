@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Image, Button } from 'semantic-ui-react'
-import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode } from '../actions';
+import { Grid, Image, Button, Card, Rating } from 'semantic-ui-react'
+import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode, updateRating } from '../actions';
 
 class ShowPage extends Component {
   constructor(props){
@@ -51,7 +51,7 @@ class ShowPage extends Component {
 
   createCheckboxes(){
     const { id } = this.props.match.params;
-    console.log("createBoxes=====",this.state.num, this.props.created_seasons);
+    console.log("createBoxes=====",this.state.num, this.props.created_seasons.length);
     if(this.state.num && this.props.created_seasons.length>0){
       console.log("true true");
     const episodes = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id).episodes.sort((a, b) => a.number - b.number )
@@ -79,7 +79,7 @@ class ShowPage extends Component {
 }
 
 renderProgressBar(){
-  console.log("progressbar=======", this.state.num, this.props.created_seasons)
+  console.log("progressbar=======", this.state.num, this.props.created_seasons.length)
   if(this.state.num && this.props.created_seasons.length>0){
   const { id } = this.props.match.params;
   const episodes = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id).episodes
@@ -94,7 +94,10 @@ renderProgressBar(){
   }
 }
 
-
+  onClickRating(event, data){
+    const { id } = this.props.match.params;
+    this.props.updateRating(id, data.rating).then(res => console.log(res))
+  }
 
     render() {
       const { show, seasons, episodes, created_seasons } = this.props;
@@ -106,10 +109,21 @@ renderProgressBar(){
 
             <Grid.Row>
             <Grid.Column width={4}>
-                <img className="img-responsive center-block" alt="" src={show.image} />
+              <Card centered size="small">
+                <Image src={show.image}/>
+                <Card.Content>
+                  <Button attached="bottom"
+                    onClick={this.onDeleteClick.bind(this)}>
+                    Delete Show
+                  </Button>
+                </Card.Content>
+                <Card.Content extra>
+                  <Rating icon='star' defaultRating={this.props.show.rating} maxRating={5} size='large' onRate={this.onClickRating.bind(this)}/>
+                </Card.Content>
+              </Card>
               </Grid.Column>
               <Grid.Column width={6}>
-                <h3>Seasons</h3>
+                <h2>Seasons</h2>
                 {
                   seasons.map((s)=> {
                     if(s.premiereDate === null) {
@@ -123,30 +137,15 @@ renderProgressBar(){
                     }
                   })
                 }
+                <h2>Progress</h2>
+                <div className="progress fluid">
+                  {this.renderProgressBar()}
+                </div>
               </Grid.Column>
               <Grid.Column width={6}>
-                <h3>Episodes</h3>
+                <h2>Episodes</h2>
                     {this.createCheckboxes()}
               </Grid.Column>
-            </Grid.Row>
-
-            <Grid.Row>
-
-              <Grid.Column width={4}>
-                <Button attached="bottom"
-                  onClick={this.onDeleteClick.bind(this)}>
-                  Delete Show
-                </Button>
-              </Grid.Column>
-
-              <Grid.Column width={12} centered>
-                  <div className="progress fluid">
-                    {this.renderProgressBar()}
-                  </div>
-              </Grid.Column>
-
-
-
             </Grid.Row>
           </Grid>
         );
@@ -158,4 +157,4 @@ function mapStateToProps({ shows, seasons, created_seasons, episodes }, ownProps
   seasons, created_seasons, episodes };
 }
 
-export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode })(ShowPage)
+export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode, updateRating })(ShowPage)
