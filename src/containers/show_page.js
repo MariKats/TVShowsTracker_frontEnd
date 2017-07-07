@@ -20,13 +20,13 @@ class ShowPage extends Component {
     .then(()=>this.props.fetchCreatedSeasons()).then(res => console.log(res))
     .then(()=>this.props.fetchEpisodes(tvmaze_id))
     .then((episodes)=> {
-      if(this.props.created_seasons){
         const find_season_id = (seasons_number) => this.props.created_seasons.find(season => season.number === seasons_number && season.show.id.toString() === id)
         episodes.payload.data.map(episode => {
-            const season_id = find_season_id(episode.season).id
-            this.props.createEpisode(season_id, episode.season, episode.number, episode.name, false)
+            const season_id = find_season_id(episode.season)
+            if (season_id){
+            this.props.createEpisode(season_id.id, episode.season, episode.number, episode.name, false)
+          }
         })
-      }
       })
     })
   }
@@ -54,43 +54,57 @@ class ShowPage extends Component {
     console.log("createBoxes=====",this.state.num, this.props.created_seasons.length);
     if(this.state.num && this.props.created_seasons.length>0){
       console.log("true true");
-    const episodes = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id).episodes.sort((a, b) => a.number - b.number )
-    const checks = episodes.map((e)=> {
-      if(e.watched === true){
-        console.log("watched === true", e)
+    const seasons = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id)
+    if (seasons){
+      const episodes = seasons.episodes.sort((a, b) => a.number - b.number )
+      const checks = episodes.map((e)=> {
+        if(e.watched === true){
+          console.log("watched === true", e)
+          return (
+            <div className="checkbox">
+              <label>
+                <input type="checkbox" checked onChange={this.onCheckChange.bind(this)} id={e.id} key={e.id}/>{e.number}. {e.name}
+              </label>
+            </div>
+          )} else {
+            console.log("watched === false", e)
         return (
           <div className="checkbox">
             <label>
-              <input type="checkbox" checked onChange={this.onCheckChange.bind(this)} id={e.id} key={e.id}/>{e.number}. {e.name}
+              <input type="checkbox" onChange={this.onCheckChange.bind(this)} id={e.id} key={e.id}/>{e.number}. {e.name}
             </label>
           </div>
-        )} else {
-          console.log("watched === false", e)
-      return (
-        <div className="checkbox">
-          <label>
-            <input type="checkbox" onChange={this.onCheckChange.bind(this)} id={e.id} key={e.id}/>{e.number}. {e.name}
-          </label>
-        </div>
-      )}
-    })
-    return checks
+        )}
+      })
+      return checks
+    }
+  } else {
+    return(
+      <p>Click on a Season for a list of Episodes</p>
+    )
   }
+}
+
+selectAll(){
+
 }
 
 renderProgressBar(){
   console.log("progressbar=======", this.state.num, this.props.created_seasons.length)
   if(this.state.num && this.props.created_seasons.length>0){
   const { id } = this.props.match.params;
-  const episodes = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id).episodes
-  const total = episodes.length
-  const watched = episodes.filter(e => e.watched === true).length
-  const progress = (watched/total)*100
-  return(
-    <div className="progress-bar" role="progressbar"
-     aria-valuenow={`${progress}`} aria-valuemin="0" aria-valuemax="100" style={{width:`${progress}%`}}>
-    </div>
-    )
+  const seasons = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id)
+  if (seasons) {
+    const episodes = seasons.episodes
+    const total = episodes.length
+    const watched = episodes.filter(e => e.watched === true).length
+    const progress = (watched/total)*100
+    return(
+      <div className="progress-bar" role="progressbar"
+       aria-valuenow={`${progress}`} aria-valuemin="0" aria-valuemax="100" style={{width:`${progress}%`}}>
+      </div>
+      )
+    }
   }
 }
 
@@ -108,7 +122,7 @@ renderProgressBar(){
           <Grid celled>
 
             <Grid.Row>
-            <Grid.Column width={4}>
+            <Grid.Column width={3}>
               <Card centered size="small">
                 <Image src={show.image}/>
                 <Card.Content>
@@ -118,7 +132,7 @@ renderProgressBar(){
                   </Button>
                 </Card.Content>
                 <Card.Content extra>
-                  <Rating icon='star' defaultRating={this.props.show.rating} maxRating={5} size='large' onRate={this.onClickRating.bind(this)}/>
+                  <Rating icon='star' defaultRating={this.props.show.rating} maxRating={5} size='big' onRate={this.onClickRating.bind(this)}/>
                 </Card.Content>
               </Card>
               </Grid.Column>
