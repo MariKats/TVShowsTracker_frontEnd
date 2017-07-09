@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Image, Button, Card, Rating } from 'semantic-ui-react'
+import { Grid, Image, Button, Card, Rating, Divider } from 'semantic-ui-react'
 import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode, updateRating } from '../actions';
+import SeasonsList from '../components/seasons_list';
 
 class ShowPage extends Component {
   constructor(props){
@@ -127,8 +128,8 @@ renderProgressBar(){
       }
         return (
           <Grid celled>
-
             <Grid.Row>
+
             <Grid.Column width={3}>
               <Card centered size="small">
                 <Image src={show.image}/>
@@ -143,26 +144,17 @@ renderProgressBar(){
                 </Card.Content>
               </Card>
               </Grid.Column>
+
               <Grid.Column width={6}>
                 <h2>Seasons</h2>
-                {
-                  seasons.map((s)=> {
-                    if(s.premiereDate === null) {
-                      return null
-                    } else {
-                      return (
-                        <div>
-                          <a onClick={this.handleClick.bind(this)}><p key={s.id} id={s.number}> Season {s.number}</p></a>
-                        </div>
-                      )
-                    }
-                  })
-                }
+                  <SeasonsList seasons={seasons} handleClick={this.handleClick.bind(this)}/>
+                  <Divider />
                 <h2>Progress</h2>
                 <div className="progress fluid">
                   {this.renderProgressBar()}
                 </div>
               </Grid.Column>
+
               <Grid.Column width={6}>
                 <h2>Episodes</h2>
                     {this.createCheckboxes()}
