@@ -25,7 +25,7 @@ class ShowPage extends Component {
         episodes.payload.data.map(episode => {
             const season_id = find_season_id(episode.season)
             if (season_id){
-            this.props.createEpisode(season_id.id, episode.season, episode.number, episode.name, false)
+            this.props.createEpisode(season_id.id, episode.season, episode.number, episode.name, false, episode.runtime)
           }
         })
       })

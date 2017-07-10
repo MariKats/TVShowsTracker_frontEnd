@@ -28,20 +28,6 @@ export default class NavBar extends Component {
             onClick={this.handleItemClick}>
             <Link to="/shows">Watchlist</Link>
           </Menu.Item>
-
-          <Menu.Item
-            name='sign_up'
-            active={activeItem === 'sign_up'}
-            onClick={this.handleItemClick}>
-            Sign Up
-          </Menu.Item>
-
-          <Menu.Item
-            name='log_in'
-            active={activeItem === 'log_in'}
-            onClick={this.handleItemClick}>
-            <Link to="/login">Log In</Link>
-          </Menu.Item>
         </Menu.Menu>
       </Menu>
     )

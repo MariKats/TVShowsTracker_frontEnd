@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const FETCH_SEARCHED_SHOW = 'FETCH_SEARCHED_SHOW'
 export const FETCH_CREATED_SEASONS = 'FETCH_CREATED_SEASONS'
+export const FETCH_CREATED_EPISODES = 'FETCH_CREATED_EPISODES'
 export const CLEAR_SEARCHED_SHOW = 'CLEAR_SEARCHED_SHOW'
 export const CREATE_SHOW = 'CREATE_SHOW'
 export const CREATE_SEASON = 'CREATE_SEASON'
@@ -117,12 +118,12 @@ export function fetchEpisodes(id) {
   };
 }
 
-export function createEpisode(id, season_number, number, name, watched) {
+export function createEpisode(id, season_number, number, name, watched, time) {
   const url = `${HEROKU_URL}/api/v1/episodes`;
   const request = axios({
     method: 'post',
     url: url,
-    data: { season_id: id, season_number: season_number, number: number, name: name, watched: watched },
+    data: { season_id: id, season_number: season_number, number: number, name: name, watched: watched, time: time },
     headers: {
       'content-type': 'application/json'
     }
@@ -145,6 +146,15 @@ export function updateEpisode(id, watched) {
   })
   return {
     type: UPDATE_EPISODE,
+    payload: request
+  };
+}
+
+export function fetchCreatedEpisodes() {
+  const url = `${HEROKU_URL}/api/v1/episodes`;
+  const request = axios.get(url);
+  return {
+    type: FETCH_CREATED_EPISODES,
     payload: request
   };
 }
