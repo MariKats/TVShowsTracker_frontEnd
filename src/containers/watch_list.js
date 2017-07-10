@@ -3,7 +3,7 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchShows } from '../actions/index';
-import { Card, Image, Container } from 'semantic-ui-react'
+import { Card, Image, Container } from 'semantic-ui-react';
 
 class WatchList extends Component {
   renderShow(show){

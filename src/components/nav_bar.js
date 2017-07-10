@@ -17,7 +17,7 @@ export default class NavBar extends Component {
             name='logo'
             active={activeItem === 'logo'}
             onClick={this.handleItemClick}>
-            <Link to="/" className='navbar-brand'>ShowsTracker</Link>
+            <Link to="/" className='navbar-brand'>{this.props.title} ShowsTracker</Link>
           </Menu.Item>
         </Menu.Header>
 
@@ -41,6 +41,13 @@ export default class NavBar extends Component {
             active={activeItem === 'log_in'}
             onClick={this.handleItemClick}>
             <Link to="/login">Log In</Link>
+          </Menu.Item>
+
+          <Menu.Item
+            name='log_out'
+            active={activeItem === 'log_out'}
+            onClick={this.props.logOut}>
+            Log Out
           </Menu.Item>
         </Menu.Menu>
       </Menu>

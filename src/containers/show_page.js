@@ -93,10 +93,6 @@ class ShowPage extends Component {
   }
 }
 
-selectAll(){
-
-}
-
 renderProgressBar(){
   console.log("progressbar=======", this.state.num, this.props.created_seasons.length)
   if(this.state.num && this.props.created_seasons.length>0){
