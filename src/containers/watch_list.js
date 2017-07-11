@@ -3,16 +3,14 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchShows, fetchCreatedEpisodes } from '../actions/index';
-import { Card, Image, Container, Segment, List } from 'semantic-ui-react'
+import { Card, Image, Container, Segment, List, Statistic } from 'semantic-ui-react';
 
 class WatchList extends Component {
   renderShow(show){
     return (
-    <Card fluid>
       <Link to={`/shows/${show.id}`} key={show.id} >
-        <Image src={show.image}/>
-       </Link>
-     </Card>
+        <img style={{margin: "9px"}} src={show.image} size="medium"/>
+      </Link>
     )
   }
 
@@ -23,6 +21,11 @@ class WatchList extends Component {
 
     render() {
       const total_minutes = this.props.created_episodes.filter(e=> e.watched === true).map(e=> e.time).reduce(function(a,b){return a + b}, 0)
+      const total_hours = (total_minutes/60).toFixed(2)
+      const total_days = (total_minutes/(60*24)).toFixed(2)
+      const total_weeks = (total_minutes/(60*24*7)).toFixed(2)
+      const total_months = (total_minutes/(60*24*30)).toFixed(2)
+      const items = [{label: 'Minutes', value: total_minutes.toLocaleString() },{label: "Hours", value: total_hours.toString() },{label: 'Days', value: total_days.toString()}, {label: 'Weeks', value: total_weeks.toString()}, {label: 'Months', value: total_months.toString()}]
 
       if(!this.props.shows){
         return (<p>Loading...</p>)
@@ -30,11 +33,14 @@ class WatchList extends Component {
         return (
           <Container fluid>
             <Segment textAlign='center'>
-              <p><strong>TOTAL TIME SPENT WATCHING TV</strong> | {total_minutes} minutes | {total_minutes/60} hours | {total_minutes/(60*24)} days | {total_minutes/(60*24*30)} months</p>
+              <strong>TOTAL TIME SPENT WATCHING TV</strong>
+              <Statistic.Group widths='five' items={items} />
             </Segment>
-            <Card.Group itemsPerRow={5} centered>
-                {_.map(this.props.shows, s=> this.renderShow(s))}
-            </Card.Group>
+            <Segment padded>
+              <Image.Group>
+                  {_.map(this.props.shows, s=> this.renderShow(s))}
+              </Image.Group>
+            </Segment>
           </Container>
         );
     }

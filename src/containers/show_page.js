@@ -93,10 +93,6 @@ class ShowPage extends Component {
   }
 }
 
-selectAll(){
-
-}
-
 renderProgressBar(){
   console.log("progressbar=======", this.state.num, this.props.created_seasons.length)
   if(this.state.num && this.props.created_seasons.length>0){
@@ -127,12 +123,12 @@ renderProgressBar(){
         return null
       }
         return (
-          <Grid celled>
-            <Grid.Row>
+          <Grid columns={3} divided style={{height: "100vh"}}>
+            <Grid.Row style={{background: "#D3D3D3"}}>
 
-            <Grid.Column width={3}>
-              <Card centered size="small">
-                <Image src={show.image}/>
+            <Grid.Column>
+              <Card centered size="small" style={{marginTop: 30, marginBottom: 30}}>
+                <Image src={show.image} size="medium"/>
                 <Card.Content>
                   <Button attached="bottom"
                     onClick={this.onDeleteClick.bind(this)}>
@@ -140,22 +136,24 @@ renderProgressBar(){
                   </Button>
                 </Card.Content>
                 <Card.Content extra>
-                  <Rating icon='star' defaultRating={this.props.show.rating} maxRating={5} size='big' onRate={this.onClickRating.bind(this)}/>
+                  Rate Show: <Rating icon='star' defaultRating={this.props.show.rating} maxRating={5} size='big' onRate={this.onClickRating.bind(this)}/>
                 </Card.Content>
               </Card>
-              </Grid.Column>
-
-              <Grid.Column width={6}>
-                <h2>Seasons</h2>
-                  <SeasonsList seasons={seasons} handleClick={this.handleClick.bind(this)}/>
-                  <Divider />
-                <h2>Progress</h2>
-                <div className="progress fluid">
-                  {this.renderProgressBar()}
+              <Divider />
+                <div style={{marginLeft: 40, marginRight: 25}}>
+                  <h2>Season Progress</h2>
+                  <div className="progress fluid">
+                    {this.renderProgressBar()}
+                  </div>
                 </div>
               </Grid.Column>
 
-              <Grid.Column width={6}>
+              <Grid.Column>
+                <h2>Seasons</h2>
+                  <SeasonsList seasons={seasons} handleClick={this.handleClick.bind(this)}/>
+              </Grid.Column>
+
+              <Grid.Column>
                 <h2>Episodes</h2>
                     {this.createCheckboxes()}
               </Grid.Column>
