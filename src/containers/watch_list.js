@@ -32,15 +32,33 @@ class WatchList extends Component {
       }
         return (
           <Container fluid>
+
             <Segment textAlign='center'>
               <strong>TOTAL TIME SPENT WATCHING TV</strong>
               <Statistic.Group widths='five' items={items} />
             </Segment>
+
             <Segment padded>
+            <h2>CURRENTLY WATCHING:</h2>
               <Image.Group>
-                  {_.map(this.props.shows, s=> this.renderShow(s))}
+                  {_.filter(this.props.shows, s => s.episodes.length === s.episodes.filter(e=>e.watched === true).length).map(s=> this.renderShow(s))}
               </Image.Group>
             </Segment>
+
+            <Segment padded>
+            <h2>COMPLETED:</h2>
+              <Image.Group>
+                  {_.filter(this.props.shows, s => s.episodes.length !== s.episodes.filter(e=>e.watched === true).length).map(s=> this.renderShow(s))}
+              </Image.Group>
+            </Segment>
+
+            <Segment padded>
+            <h2>TOP RATED:</h2>
+              <Image.Group>
+                  {_.filter(this.props.shows, s=>s.rating>=4).sort((a, b) => a.rating - b.rating).map(s=> this.renderShow(s))}
+              </Image.Group>
+            </Segment>
+
           </Container>
         );
     }
