@@ -90,13 +90,13 @@ class ShowPage extends Component {
 }
 
 renderProgressBar(){
-  if(this.state.num && this.props.created_seasons.length>0){
+  if(this.props.created_seasons.length>0){
   const { id } = this.props.match.params;
-  const seasons = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id)
-  if (seasons) {
-    const episodes = seasons.episodes
-    const total = episodes.length
-    const watched = episodes.filter(e => e.watched === true).length
+  const seasons = this.props.created_seasons.filter(s=>s.show.id == id)
+  if (seasons.length>0) {
+    const episodes = seasons.map(s=> s.episodes).reduce(function(a,b){ return a.concat(b)}, []).filter(e=>e.watched === true)
+    const total = seasons.map(s=> s.episodes.length).reduce(function(a, b){return a+b})
+    const watched = episodes.length
     const progress = (watched/total)*100
     return(
       <div className="progress-bar" role="progressbar"
@@ -139,16 +139,20 @@ renderProgressBar(){
                   </Button>
                 </Card.Content>
                 <Card.Content extra>
-                  Rate Show: <Rating icon='star' defaultRating={this.props.show.rating} maxRating={5} size='big' onRate={this.onClickRating.bind(this)}/>
+                <div style={{marginLeft: 25, marginRight: 25}}>
+                  <h2>Rating</h2>
+                  <Rating icon='star' defaultRating={show.rating} maxRating={5} size='large' onRate={this.onClickRating.bind(this)}/>
+                </div>
+                </Card.Content>
+                <Card.Content extra>
+                  <div style={{marginLeft: 25, marginRight: 25}}>
+                    <h2>Total Progress</h2>
+                    <div className="progress fluid">
+                      {this.renderProgressBar()}
+                    </div>
+                  </div>
                 </Card.Content>
               </Card>
-              <Divider />
-                <div style={{marginLeft: 40, marginRight: 25}}>
-                  <h2>Season Progress</h2>
-                  <div className="progress fluid">
-                    {this.renderProgressBar()}
-                  </div>
-                </div>
               </Grid.Column>
 
               <Grid.Column>
@@ -167,9 +171,8 @@ renderProgressBar(){
     }
 }
 
-function mapStateToProps({ shows, seasons, created_seasons, episodes }, ownProps) {
-  return{ show: shows[ownProps.match.params.id],
-  seasons, created_seasons, episodes };
+function mapStateToProps({ shows, created_seasons, seasons, episodes }, ownProps) {
+  return{ show: shows[ownProps.match.params.id], created_seasons, seasons, episodes };
 }
 
 export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode, updateRating })(ShowPage)
