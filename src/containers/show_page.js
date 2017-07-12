@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Grid, Image, Button, Card, Rating, Divider } from 'semantic-ui-react'
 import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode, updateRating } from '../actions';
 import SeasonsList from '../components/seasons_list';
+import '../style/index.css'
 
 class ShowPage extends Component {
   constructor(props){
@@ -127,7 +128,7 @@ renderProgressBar(){
       }
         return (
           <Grid columns={3} divided style={{height: "100vh"}}>
-            <Grid.Row style={{background: "#D3D3D3"}}>
+            <Grid.Row id="white_bg">
 
             <Grid.Column>
               <Card centered size="small" style={{marginTop: 30, marginBottom: 30}}>

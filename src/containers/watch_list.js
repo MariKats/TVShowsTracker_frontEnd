@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchShows, fetchCreatedEpisodes } from '../actions/index';
 import { Card, Image, Container, Segment, List, Statistic } from 'semantic-ui-react';
+import '../style/index.css'
 
 class WatchList extends Component {
   renderShow(show){
@@ -12,6 +13,18 @@ class WatchList extends Component {
         <img style={{margin: "9px"}} src={show.image} size="medium"/>
       </Link>
     )
+  }
+
+  renderWatchList(){
+    const shows = _.filter(this.props.shows, s => s.episodes.filter(e=>e.watched === true).length === 0)
+      if (shows){ return (
+        shows.map(s=> this.renderShow(s))
+      )}
+      else {
+        return (
+          <p>Please add some shows to your watchlist</p>
+        )
+      }
   }
 
   componentDidMount() {
@@ -31,35 +44,42 @@ class WatchList extends Component {
         return (<p>Loading...</p>)
       }
         return (
-          <Container fluid>
+            <Container fluid>
+              <Segment textAlign='center'>
+                <strong>TOTAL TIME SPENT WATCHING TV</strong>
+                <Statistic.Group widths='five' items={items} />
+              </Segment>
 
-            <Segment textAlign='center'>
-              <strong>TOTAL TIME SPENT WATCHING TV</strong>
-              <Statistic.Group widths='five' items={items} />
-            </Segment>
+              <Segment padded>
+              <h2>WATCHLIST:</h2>
+                <Image.Group>
+                    {this.renderWatchList()}
+                </Image.Group>
+              </Segment>
 
-            <Segment padded>
-            <h2>CURRENTLY WATCHING:</h2>
+              <Segment padded>
+              <h2>CURRENTLY WATCHING:</h2>
+                <Image.Group>
+                    {_.filter(this.props.shows, s => s.episodes.length !== s.episodes.filter(e=>e.watched === true).length && s.episodes.filter(e=>e.watched === true).length > 0).map(s=> this.renderShow(s))}
+                </Image.Group>
+              </Segment>
+
+              <Segment padded>
+              <h2>FAVORITES:</h2>
               <Image.Group>
-                  {_.filter(this.props.shows, s => s.episodes.length === s.episodes.filter(e=>e.watched === true).length).map(s=> this.renderShow(s))}
+              {_.filter(this.props.shows, s=>s.rating>=4).sort((a, b) => a.rating - b.rating).slice(0, 8).map(s=> this.renderShow(s))}
               </Image.Group>
-            </Segment>
+              </Segment>
 
-            <Segment padded>
-            <h2>COMPLETED:</h2>
-              <Image.Group>
-                  {_.filter(this.props.shows, s => s.episodes.length !== s.episodes.filter(e=>e.watched === true).length).map(s=> this.renderShow(s))}
-              </Image.Group>
-            </Segment>
+              <Segment padded>
+              <h2>COMPLETED:</h2>
+                <Image.Group>
+                    {_.filter(this.props.shows, s => s.episodes.length === s.episodes.filter(e=>e.watched === true).length && s.episodes.length > 0).map(s=> this.renderShow(s))}
+                </Image.Group>
+              </Segment>
 
-            <Segment padded>
-            <h2>TOP RATED:</h2>
-              <Image.Group>
-                  {_.filter(this.props.shows, s=>s.rating>=4).sort((a, b) => a.rating - b.rating).map(s=> this.renderShow(s))}
-              </Image.Group>
-            </Segment>
 
-          </Container>
+            </Container>
         );
     }
 }
