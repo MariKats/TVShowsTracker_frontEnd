@@ -8,7 +8,7 @@ class ShowPage extends Component {
   constructor(props){
   	super(props);
     this.state = {
-      num: "",
+      num: ""
     }
   }
 
@@ -48,7 +48,7 @@ class ShowPage extends Component {
   onCheckChange(event) {
    const id = event.target.id
    const watched = event.target.checked
-   this.props.updateEpisode(id, !!watched).then(res => console.log(res))
+   this.props.updateEpisode(id, !!watched)
  }
 
   onDeleteClick(){
@@ -59,15 +59,12 @@ class ShowPage extends Component {
 
   createCheckboxes(){
     const { id } = this.props.match.params;
-    console.log("createBoxes=====",this.state.num, this.props.created_seasons.length);
     if(this.state.num && this.props.created_seasons.length>0){
-      console.log("true true");
     const seasons = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id)
     if (seasons){
       const episodes = seasons.episodes.sort((a, b) => a.number - b.number )
       const checks = episodes.map((e)=> {
         if(e.watched === true){
-          console.log("watched === true", e)
           return (
             <div className="checkbox">
               <label>
@@ -75,7 +72,6 @@ class ShowPage extends Component {
               </label>
             </div>
           )} else {
-            console.log("watched === false", e)
         return (
           <div className="checkbox">
             <label>
@@ -94,7 +90,6 @@ class ShowPage extends Component {
 }
 
 renderProgressBar(){
-  console.log("progressbar=======", this.state.num, this.props.created_seasons.length)
   if(this.state.num && this.props.created_seasons.length>0){
   const { id } = this.props.match.params;
   const seasons = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id)
@@ -117,6 +112,14 @@ renderProgressBar(){
     this.props.updateRating(id, data.rating).then(res => console.log(res))
   }
 
+  handleSelectAll(event){
+    var inputs = document.querySelectorAll("input[type='checkbox']");
+      for(var i = 0; i < inputs.length; i++) {
+      inputs[i].checked = true;
+      this.props.updateEpisode(inputs[i].id, true)
+    }
+  }
+
     render() {
       const { show, seasons, episodes, created_seasons } = this.props;
       if(!show || !seasons){
@@ -128,7 +131,7 @@ renderProgressBar(){
 
             <Grid.Column>
               <Card centered size="small" style={{marginTop: 30, marginBottom: 30}}>
-                <Image src={show.image} size="medium"/>
+                <Image src={show.image} size="large"/>
                 <Card.Content>
                   <Button attached="bottom"
                     onClick={this.onDeleteClick.bind(this)}>
@@ -156,6 +159,7 @@ renderProgressBar(){
               <Grid.Column>
                 <h2>Episodes</h2>
                     {this.createCheckboxes()}
+                    <Button onClick={this.handleSelectAll.bind(this)}>Select All</Button>
               </Grid.Column>
             </Grid.Row>
           </Grid>

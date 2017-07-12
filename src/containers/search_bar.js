@@ -22,7 +22,6 @@ class SearchBar extends Component {
 
   render() {
     return (
-
       <div className='container'>
         <form onSubmit={this.onFormSubmit} className="input-group">
             <input placeholder="Search for TV shows you want to add to your watchlist" className="form-control"
