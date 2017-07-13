@@ -29,21 +29,23 @@ export default class NavBar extends Component {
             <Link to="/shows">Watchlist</Link>
           </Menu.Item>
 
-          <Menu.Item
-            name='log_in'
-            active={activeItem === 'log_in'}
-            onClick={this.handleItemClick}>
-            <Link to="/login">Log In</Link>
-          </Menu.Item>
-
-          <Menu.Item
-            name='log_out'
-            active={activeItem === 'log_out'}
-            onClick={this.props.logOut}>
-            Log Out
-          </Menu.Item>
         </Menu.Menu>
       </Menu>
     )
   }
 }
+
+
+// <Menu.Item
+// name='log_in'
+// active={activeItem === 'log_in'}
+// onClick={this.handleItemClick}>
+// <Link to="/login">Log In</Link>
+// </Menu.Item>
+//
+// <Menu.Item
+// name='log_out'
+// active={activeItem === 'log_out'}
+// onClick={this.props.logOut}>
+// Log Out
+// </Menu.Item>

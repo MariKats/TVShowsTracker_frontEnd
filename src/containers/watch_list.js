@@ -16,15 +16,15 @@ class WatchList extends Component {
   }
 
   renderWatchList(){
-    const shows = _.filter(this.props.shows, s => s.episodes.filter(e=>e.watched === true).length === 0)
-      if (shows){ return (
-        shows.map(s=> this.renderShow(s))
-      )}
-      else {
-        return (
-          <p>Please add some shows to your watchlist</p>
-        )
-      }
+      const shows = _.filter(this.props.shows, s => s.episodes.filter(e=>e.watched === true).length === 0)
+        if (shows){ return (
+          shows.map(s=> this.renderShow(s))
+        )}
+        else {
+          return (
+            <p>Please add some shows to your watchlist</p>
+          )
+        }
   }
 
   componentDidMount() {
