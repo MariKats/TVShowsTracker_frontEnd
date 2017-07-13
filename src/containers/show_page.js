@@ -127,11 +127,11 @@ renderProgressBar(){
         return null
       }
         return (
-          <Grid columns={3} divided style={{height: "100vh"}}>
-            <Grid.Row id="white_bg">
+          <Grid columns={3} divided style={{height: "100vh"}} id="white_bg">
+            <Grid.Row >
 
             <Grid.Column>
-              <Card centered size="small" style={{marginTop: 30, marginBottom: 30}}>
+              <Card centered size="small" style={{marginTop: 100, marginBottom: 30}}>
                 <Image src={show.image} size="large"/>
                 <Card.Content>
                   <Button attached="bottom"
@@ -157,14 +157,18 @@ renderProgressBar(){
               </Grid.Column>
 
               <Grid.Column>
-                <h2>Seasons</h2>
+              <div style={{marginTop: 50, marginBottom: 30}}>
+                <h1 style={{fontSize: "2em"}}>SEASONS</h1>
                   <SeasonsList seasons={seasons} handleClick={this.handleClick.bind(this)}/>
+                </div>
               </Grid.Column>
 
               <Grid.Column>
-                <h2>Episodes</h2>
+              <div style={{marginTop: 50, marginBottom: 30}}>
+                <h1 style={{fontSize: "2em"}}>EPISODES</h1>
                     {this.createCheckboxes()}
                     <Button onClick={this.handleSelectAll.bind(this)}>Select All</Button>
+              </div>
               </Grid.Column>
             </Grid.Row>
           </Grid>
