@@ -1,4 +1,4 @@
-import { UPDATE_RATING } from '../actions';
+import { UPDATE_RATING } from '../actions/shows';
 
 export default function(state={}, action){
   console.log(action)

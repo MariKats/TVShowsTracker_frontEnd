@@ -1,12 +1,16 @@
 import axios from 'axios';
 
+const EXT_URL = `https://api.tvmaze.com/`
+// const ROOT_URL = `https://tvshowstracker-api.herokuapp.com`
+const ROOT_URL = `http://localhost:3000`
+
+
 export const FETCH_SEASONS = 'FETCH_SEASONS'
-export const FETCH_CREATED_SEASONS = 'FETCH_SEASONS'
+export const FETCH_CREATED_SEASONS = 'FETCH_CREATED_SEASONS'
 export const CREATE_SEASON = 'CREATE_SEASON'
-export const SET_SEASON_ID = 'SET_SEASON_ID'
 
 export function fetchSeasons(id) {
-  const url = `http://api.tvmaze.com/shows/${id}/seasons`;
+  const url = `${EXT_URL}shows/${id}/seasons`;
   const request = axios.get(url);
   return {
     type: FETCH_SEASONS,
@@ -14,8 +18,8 @@ export function fetchSeasons(id) {
   };
 }
 
-export function createSeason(id, number, episodeOrder) {
-  const url = `http://localhost:3000/api/v1/seasons`;
+export function createSeason(id, number, episodeOrder, watched) {
+  const url = `${ROOT_URL}/api/v1/seasons`;
   const request = axios({
     method: 'post',
     url: url,
@@ -31,17 +35,10 @@ export function createSeason(id, number, episodeOrder) {
 }
 
 export function fetchCreatedSeasons() {
-  const url = `http://localhost:3000/api/v1/seasons`;
+  const url = `${ROOT_URL}/api/v1/seasons`;
   const request = axios.get(url);
   return {
     type: FETCH_CREATED_SEASONS,
     payload: request
-  };
-}
-
-export function setSeasonId(id) {
-  return {
-    type: SET_SEASON_ID,
-    payload: id
   };
 }

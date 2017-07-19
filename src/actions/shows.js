@@ -1,4 +1,9 @@
 import axios from 'axios';
+
+const EXT_URL = `https://api.tvmaze.com/`
+// const ROOT_URL = `https://tvshowstracker-api.herokuapp.com`
+const ROOT_URL = `http://localhost:3000`
+
 export const FETCH_SEARCHED_SHOW = 'FETCH_SEARCHED_SHOW'
 export const CLEAR_SEARCHED_SHOW = 'CLEAR_SEARCHED_SHOW'
 export const CREATE_SHOW = 'CREATE_SHOW'
@@ -6,10 +11,7 @@ export const UPDATE_RATING = 'UPDATE_RATING'
 export const FETCH_SHOWS = 'FETCH_SHOWS'
 export const FETCH_SHOW = 'FETCH_SHOW'
 export const DELETE_SHOW = 'DELETE_SHOW'
-export const SET_ACTIVE_SHOW = 'SET_ACTIVE_SHOW'
-const EXT_URL = `https://api.tvmaze.com/`
-// const URL = `https://tvshowstracker-api.herokuapp.com`
-const ROOT_URL = `http://localhost:3000`
+// export const SET_ACTIVE_SHOW = 'SET_ACTIVE_SHOW'
 
 export function fetchSearchedShow(show) {
   const url = `${EXT_URL}singlesearch/shows?q=${show}`;
@@ -67,12 +69,13 @@ export function deleteShow(id, callback) {
     payload: id
   };
 }
+
 export function updateRating(id, rating) {
   const url = `${ROOT_URL}/api/v1/shows/${id}`;
   const request = axios({
     method: 'patch',
     url: url,
-    data: { rating: rating},
+    data: { rating: rating },
     headers: {
       'content-type': 'application/json'
     }
@@ -89,11 +92,11 @@ export function clearSearchedShow() {
   };
 }
 
-export function setActiveShow(id) {
-  const url = `${ROOT_URL}/api/v1/shows/${id}`;
-  const request = axios.get(url);
-  return {
-    type: SET_ACTIVE_SHOW,
-    payload: request
-  };
-}
+// export function setActiveShow(id) {
+//   const url = `${ROOT_URL}/api/v1/shows/${id}`;
+//   const request = axios.get(url);
+//   return {
+//     type: SET_ACTIVE_SHOW,
+//     payload: request
+//   };
+// }

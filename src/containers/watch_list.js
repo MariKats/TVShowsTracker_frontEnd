@@ -2,7 +2,8 @@ import _ from 'lodash';
 import React,{Component} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchShows, fetchCreatedEpisodes } from '../actions/index';
+import { fetchShows } from '../actions/shows';
+import { fetchCreatedEpisodes } from '../actions/episodes';
 import { Card, Image, Container, Segment, List, Statistic } from 'semantic-ui-react';
 import '../style/index.css'
 

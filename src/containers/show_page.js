@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Image, Button, Card, Rating, Divider } from 'semantic-ui-react'
-import { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode, updateRating } from '../actions';
+import { fetchShow, deleteShow, updateRating } from '../actions/shows';
+import { fetchSeasons, createSeason, fetchCreatedSeasons } from '../actions/seasons';
+import { fetchEpisodes, createEpisode, updateEpisode } from '../actions/episodes';
 import SeasonsList from '../components/seasons_list';
 import '../style/index.css'
 

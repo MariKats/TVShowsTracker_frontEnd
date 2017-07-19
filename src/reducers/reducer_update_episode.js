@@ -1,4 +1,4 @@
-import { UPDATE_EPISODE } from '../actions';
+import { UPDATE_EPISODE } from '../actions/episodes';
 
 export default function(state={}, action){
   console.log(action)

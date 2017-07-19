@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { FETCH_SHOWS, FETCH_SHOW, DELETE_SHOW } from '../actions/index';
+import { FETCH_SHOWS, FETCH_SHOW, DELETE_SHOW } from '../actions/shows';
 
 export default function(state={}, action){
   switch (action.type) {

@@ -27,5 +27,3 @@ const SeasonsList = ({seasons, handleClick}) => {
 }
 
 export default SeasonsList;
-
-// <Image avatar src='http://www.freeiconspng.com/uploads/television-png-12.png' />

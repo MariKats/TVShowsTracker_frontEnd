@@ -1,4 +1,4 @@
-import { FETCH_SEASONS } from '../actions/index';
+import { FETCH_SEASONS } from '../actions/seasons';
 
 export default function(state=[], action){
   switch (action.type) {

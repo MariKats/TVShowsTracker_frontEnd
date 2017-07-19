@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { fetchSearchedShow } from '../actions/index';
+import { fetchSearchedShow } from '../actions/shows';
 
 class SearchBar extends Component {
   constructor(props){
