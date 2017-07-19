@@ -1,13 +1,11 @@
-#white_bg {
-  background-color: #d6d3d3 !important;
-  background-image: url('../assets/images/black-and-white-city-houses-skyline.jpg') !important;
+#showpage {
+  background: url('../assets/images/black-and-white-city-houses-skyline.jpg') !important;
   -webkit-background-size: cover !important;
   -moz-background-size: cover !important;
   background-size: cover !important;
   -o-background-size: cover !important;
   height:100%;
 }
-
 
 body {
   margin: 0 !important;

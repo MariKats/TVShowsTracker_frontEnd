@@ -7,7 +7,7 @@ import SearchResult from '../containers/search_result'
 class SearchPage extends Component {
   render() {
     return (
-      <div className="search-page">
+      <div id="searchpage">
         <SearchBar />
         <SearchResult />
       </div>

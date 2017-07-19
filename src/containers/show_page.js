@@ -129,11 +129,11 @@ renderProgressBar(){
         return null
       }
         return (
-          <Grid columns={3} divided style={{height: "100vh"}} id="white_bg">
+          <Grid columns={3} divided id="showpage">
             <Grid.Row >
 
             <Grid.Column>
-              <Card centered size="small" style={{marginTop: 100, marginBottom: 30}}>
+              <Card centered size="small" style={{marginTop: 50, marginBottom: 50}}>
                 <Image src={show.image} size="large"/>
                 <Card.Content>
                   <Button attached="bottom"

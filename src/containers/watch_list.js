@@ -45,7 +45,7 @@ class WatchList extends Component {
         return (<p>Loading...</p>)
       }
         return (
-            <Container fluid>
+            <Container fluid id="watchlist">
               <Segment textAlign='center'>
                 <strong>TOTAL TIME SPENT WATCHING TV</strong>
                 <Statistic.Group widths='five' items={items} />
