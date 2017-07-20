@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { Menu } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react';
+import { Menu } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 export default class NavBar extends Component {
   state = {}
@@ -11,7 +11,7 @@ export default class NavBar extends Component {
     const { activeItem } = this.state
 
     return (
-      <Menu inverted>
+      <Menu inverted >
         <Menu.Header>
           <Menu.Item
             name='logo'
@@ -21,7 +21,7 @@ export default class NavBar extends Component {
           </Menu.Item>
         </Menu.Header>
 
-        <Menu.Menu position='right'>
+        <Menu.Menu position='left'>
           <Menu.Item
             name='watchlist'
             active={activeItem === 'watchlist'}

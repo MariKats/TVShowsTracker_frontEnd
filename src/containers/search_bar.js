@@ -1,37 +1,33 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { fetchSearchedShow } from '../actions/shows';
+import { Input, Button } from 'semantic-ui-react';
 
 class SearchBar extends Component {
   constructor(props){
     super(props)
     this.onInputChange = this.onInputChange.bind(this)
-    this.onFormSubmit = this.onFormSubmit.bind(this)
+    this.onButtonClick = this.onButtonClick.bind(this)
     this.state = {term: ''}
   }
 
-  onInputChange(event) {
-    this.setState({term: event.target.value})
+  onInputChange(event, data) {
+    this.setState({term: data.value}, console.log(data.value))
   }
 
-  onFormSubmit(event){
-    event.preventDefault()
+  onButtonClick(){
     this.props.fetchSearchedShow(this.state.term)
     this.setState({term: ''})
   }
 
   render() {
     return (
-      <div className='container'>
-        <form onSubmit={this.onFormSubmit} className="input-group">
-            <input placeholder="Search for TV shows you want to add to your watchlist" className="form-control"
-            value={this.state.term}
-            onChange={this.onInputChange}/>
-            <span className="input-group-btn">
-              <button type="submit" className="btn btn-secondary">Submit</button>
-            </span>
-        </form>
-      </div>
+      <Input focus className="searchbar"
+        onChange={this.onInputChange}
+        value={this.state.term}
+        icon={<Button icon='search' onClick={this.onButtonClick}/>}
+        placeholder='Search...'
+      />
     );
   }
 }

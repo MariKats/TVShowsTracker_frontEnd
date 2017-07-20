@@ -112,7 +112,7 @@ renderProgressBar(){
 
   onClickRating(event, data){
     const { id } = this.props.match.params;
-    this.props.updateRating(id, data.rating).then(res => console.log(res))
+    this.props.updateRating(id, data.rating)
   }
 
   handleSelectAll(event){

@@ -8,10 +8,10 @@
 }
 
 body {
-  margin: 0 !important;
+  margin: auto !important;
   font-family: 'Droid+Sans', serif !important;
   font-size: 1.3em  !important;
-  background: url('../assets/images/pexels-photo-117511-min-cropped.jpg') no-repeat center center fixed !important;
+  background: url('../assets/images/night-television-tv-theme-machines.jpg') no-repeat center center fixed !important;
    -webkit-background-size: cover !important;
    -moz-background-size: cover !important;
    background-size: cover !important;
@@ -21,6 +21,14 @@ body {
 
 .search-result {
   position: fixed !important;
-  left: 39% !important;
-  bottom: 28% !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%);
+}
+
+.searchbar {
+  position: fixed !important;
+  top: 85% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%);
 }

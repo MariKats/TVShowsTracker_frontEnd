@@ -17,15 +17,10 @@ class WatchList extends Component {
   }
 
   renderWatchList(){
-      const shows = _.filter(this.props.shows, s => s.episodes.filter(e=>e.watched === true).length === 0)
-        if (shows){ return (
-          shows.map(s=> this.renderShow(s))
-        )}
-        else {
-          return (
-            <p>Please add some shows to your watchlist</p>
-          )
-        }
+    const shows = _.filter(this.props.shows, s => s.episodes.filter(e=>e.watched === true).length === 0)
+      if (shows){ return (
+        shows.map(s=> this.renderShow(s))
+      )}
   }
 
   componentDidMount() {
@@ -46,33 +41,33 @@ class WatchList extends Component {
       }
         return (
             <Container fluid id="watchlist">
-              <Segment textAlign='center'>
+              <Segment textAlign='center' raised>
                 <strong>TOTAL TIME SPENT WATCHING TV</strong>
                 <Statistic.Group widths='five' items={items} />
               </Segment>
 
-              <Segment padded>
+              <Segment padded raised>
               <h2>WATCHLIST:</h2>
                 <Image.Group>
                     {this.renderWatchList()}
                 </Image.Group>
               </Segment>
 
-              <Segment padded>
+              <Segment padded raised>
               <h2>CURRENTLY WATCHING:</h2>
                 <Image.Group>
                     {_.filter(this.props.shows, s => s.episodes.length !== s.episodes.filter(e=>e.watched === true).length && s.episodes.filter(e=>e.watched === true).length > 0).map(s=> this.renderShow(s))}
                 </Image.Group>
               </Segment>
 
-              <Segment padded>
+              <Segment padded raised>
               <h2>FAVORITES:</h2>
               <Image.Group>
               {_.filter(this.props.shows, s=>s.rating>=4).sort((a, b) => a.rating - b.rating).slice(0, 8).map(s=> this.renderShow(s))}
               </Image.Group>
               </Segment>
 
-              <Segment padded>
+              <Segment padded raised>
               <h2>COMPLETED:</h2>
                 <Image.Group>
                     {_.filter(this.props.shows, s => s.episodes.length === s.episodes.filter(e=>e.watched === true).length && s.episodes.length > 0).map(s=> this.renderShow(s))}
