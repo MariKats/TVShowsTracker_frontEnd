@@ -6,7 +6,7 @@ export default class ProgressBar extends Component {
     const { id, seasons } = this.props
     if(seasons.length > 0){
     const seasons_list = seasons.filter(s=>s.show.id == id)
-    if (seasons) {
+    if (seasons_list) {
       const episodes = seasons_list.map(s=> s.episodes).reduce(function(a,b){ return a.concat(b)}, []).filter(e=>e.watched === true)
       const total = seasons_list.map(s=> s.episodes.length).reduce(function(a, b){return a+b})
       const watched = episodes.length

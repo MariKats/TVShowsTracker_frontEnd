@@ -4,8 +4,9 @@ import ProgressBar from '../components/progress_bar'
 import { Grid, Image, Button, Card, Rating, Divider } from 'semantic-ui-react'
 import { fetchShow, deleteShow, updateRating } from '../actions/shows';
 import { fetchSeasons, createSeason, fetchCreatedSeasons } from '../actions/seasons';
-import { fetchEpisodes, createEpisode, updateEpisode } from '../actions/episodes';
+import { fetchEpisodes, createEpisode } from '../actions/episodes';
 import SeasonsList from '../components/seasons_list';
+import EpisodesList from '../components/episodes_list';
 import '../style/index.css'
 
 class ShowPage extends Component {
@@ -49,61 +50,15 @@ class ShowPage extends Component {
    })
  }
 
-  onCheckChange(event) {
-   const id = event.target.id
-   const watched = event.target.checked
-   this.props.updateEpisode(id, !!watched)
- }
-
   onDeleteClick(){
     const { id } = this.props.match.params;
     let callback = () => {this.props.history.push('/shows')}
     this.props.deleteShow(id, callback);
   }
 
-  createCheckboxes(){
-    const { id } = this.props.match.params;
-    if(this.state.num && this.props.created_seasons.length>0){
-    const seasons = this.props.created_seasons.find(s => s.number == this.state.num && s.show.id == id)
-    if (seasons){
-      const episodes = seasons.episodes.sort((a, b) => a.number - b.number )
-      const checks = episodes.map((e)=> {
-        if(e.watched === true){
-          return (
-            <div className="checkbox">
-              <label>
-                <input type="checkbox" checked onChange={this.onCheckChange.bind(this)} id={e.id} key={e.id}/>{e.number}. {e.name}
-              </label>
-            </div>
-          )} else {
-        return (
-          <div className="checkbox">
-            <label>
-              <input type="checkbox" onChange={this.onCheckChange.bind(this)} id={e.id} key={e.id}/>{e.number}. {e.name}
-            </label>
-          </div>
-        )}
-      })
-      return checks
-    }
-  } else {
-    return(
-      <p>Click on a Season for a list of Episodes</p>
-    )
-  }
-}
-
   onClickRating(event, data){
     const { id } = this.props.match.params;
     this.props.updateRating(id, data.rating)
-  }
-
-  handleSelectAll(event){
-    var inputs = document.querySelectorAll("input[type='checkbox']");
-      for(var i = 0; i < inputs.length; i++) {
-      inputs[i].checked = true;
-      this.props.updateEpisode(inputs[i].id, true)
-    }
   }
 
     render() {
@@ -149,8 +104,10 @@ class ShowPage extends Component {
               <Grid.Column>
               <div style={{marginTop: 50, marginBottom: 30}}>
                 <h1 style={{fontSize: "2em"}}>EPISODES</h1>
-                    {this.createCheckboxes()}
-                      <Button onClick={this.handleSelectAll.bind(this)}>Select All</Button>
+                    <EpisodesList
+                    id={this.props.match.params.id}
+                    num={this.state.num}
+                    seasons={created_seasons} />
               </div>
               </Grid.Column>
             </Grid.Row>
@@ -163,4 +120,4 @@ function mapStateToProps({ shows, created_seasons, seasons, episodes }, ownProps
   return{ show: shows[ownProps.match.params.id], created_seasons, seasons, episodes };
 }
 
-export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateEpisode, updateRating })(ShowPage)
+export default connect(mapStateToProps, { fetchShow, deleteShow, fetchSeasons, fetchEpisodes, createSeason, fetchCreatedSeasons, createEpisode, updateRating })(ShowPage)
