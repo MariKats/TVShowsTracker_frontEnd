@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ProgressBar from '../components/progress_bar'
 import { Grid, Image, Button, Card, Rating, Divider } from 'semantic-ui-react'
 import { fetchShow, deleteShow, updateRating } from '../actions/shows';
 import { fetchSeasons, createSeason, fetchCreatedSeasons } from '../actions/seasons';
@@ -21,7 +22,7 @@ class ShowPage extends Component {
     const tvmaze_id = show.payload.data.tvmaze_id
     this.props.fetchSeasons(tvmaze_id)
     .then((seasons)=> seasons.payload.data.map(season => this.props.createSeason(id, season.number, season.episodeOrder)))
-    .then(()=>this.props.fetchCreatedSeasons(id)).then(res => console.log(res))
+    .then(()=>this.props.fetchCreatedSeasons(id))
     .then(()=>this.props.fetchEpisodes(tvmaze_id))
     .then((episodes)=> {
         const find_season_id = (seasons_number) => this.props.created_seasons.find(season => season.number === seasons_number && season.show.id.toString() === id)
@@ -92,24 +93,6 @@ class ShowPage extends Component {
   }
 }
 
-renderProgressBar(){
-  if(this.props.created_seasons.length>0){
-  const { id } = this.props.match.params;
-  const seasons = this.props.created_seasons.filter(s=>s.show.id == id)
-  if (seasons.length>0) {
-    const episodes = seasons.map(s=> s.episodes).reduce(function(a,b){ return a.concat(b)}, []).filter(e=>e.watched === true)
-    const total = seasons.map(s=> s.episodes.length).reduce(function(a, b){return a+b})
-    const watched = episodes.length
-    const progress = (watched/total)*100
-    return(
-      <div className="progress-bar" role="progressbar"
-       aria-valuenow={`${progress}`} aria-valuemin="0" aria-valuemax="100" style={{width:`${progress}%`}}>
-      </div>
-      )
-    }
-  }
-}
-
   onClickRating(event, data){
     const { id } = this.props.match.params;
     this.props.updateRating(id, data.rating)
@@ -150,10 +133,8 @@ renderProgressBar(){
                 <Card.Content extra>
                   <div style={{marginLeft: 25, marginRight: 25}}>
                     <h2>Total Progress</h2>
-                    <div className="progress fluid">
-                      {this.renderProgressBar()}
+                      <ProgressBar id={this.props.match.params.id} seasons={created_seasons}/>
                     </div>
-                  </div>
                 </Card.Content>
               </Card>
               </Grid.Column>
@@ -169,7 +150,7 @@ renderProgressBar(){
               <div style={{marginTop: 50, marginBottom: 30}}>
                 <h1 style={{fontSize: "2em"}}>EPISODES</h1>
                     {this.createCheckboxes()}
-                    <Button onClick={this.handleSelectAll.bind(this)}>Select All</Button>
+                      <Button onClick={this.handleSelectAll.bind(this)}>Select All</Button>
               </div>
               </Grid.Column>
             </Grid.Row>
